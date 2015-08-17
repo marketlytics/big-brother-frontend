@@ -5,45 +5,66 @@
 
 'use strict';
 
-var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
-
-Thing.find({}).remove(function() {
-  Thing.create({
-    name : 'Development Tools',
-    info : 'Integration with popular tools such as Bower, Grunt, Karma, Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, Stylus, Sass, CoffeeScript, and Less.'
-  }, {
-    name : 'Server and Client integration',
-    info : 'Built with a powerful and fun stack: MongoDB, Express, AngularJS, and Node.'
-  }, {
-    name : 'Smart Build System',
-    info : 'Build system ignores `spec` files, allowing you to keep tests alongside code. Automatic injection of scripts and styles into your index.html'
-  },  {
-    name : 'Modular Structure',
-    info : 'Best practice client and server structures allow for more code reusability and maximum scalability'
-  },  {
-    name : 'Optimized Build',
-    info : 'Build process packs up your templates as a single JavaScript payload, minifies your scripts/css/images, and rewrites asset names for caching.'
-  },{
-    name : 'Deployment Ready',
-    info : 'Easily deploy your app to Heroku or Openshift with the heroku and openshift subgenerators'
-  });
-});
+var Device = require('../api/device/device.model');
+var Record = require('../api/record/record.model');
 
 User.find({}).remove(function() {
   User.create({
-    provider: 'local',
-    name: 'Test User',
-    email: 'test@test.com',
-    password: 'test'
-  }, {
-    provider: 'local',
     role: 'admin',
     name: 'Admin',
     email: 'admin@admin.com',
     password: 'admin'
-  }, function() {
+  }, {
+    name: 'Test User 1',
+    email: 'test1@test.com'
+  }, {
+    name: 'Test User 2',
+    email: 'test2@test.com'
+  }, function(err) {
+      if(err) { console.error(err); }
       console.log('finished populating users');
     }
   );
+});
+
+Record.find({}).remove(function() {
+  Record.create({
+    mac: '10:93:e9:5e:f5:92',
+    lastUpdated: (new Date()).getTime() - 10000,
+    status: 'UP'
+  },
+  {
+    mac: '10:93:e9:5e:f5:92',
+    lastUpdated: (new Date()).getTime(),
+    status: 'DOWN'
+  },
+  {
+    mac: '10:96:e9:5e:f5:92',
+    lastUpdated: (new Date()).getTime() - 30000,
+    status: 'UP'
+  },
+  {
+    mac: '10:96:e9:5e:f5:92',
+    lastUpdated: (new Date()).getTime(),
+    status: 'DOWN'
+  }, function(err) {
+    if(err) { console.error(err); }
+    console.log('finished populating records');
+  });
+});
+
+Device.find({}).remove(function() {
+  Device.create({
+    mac: '10:93:e9:5e:f5:92',
+    createdOn: new Date(),
+    description: 'AQ - i5 2011 - 4GB'
+  }, {
+    mac: 'e3:91:21:54:97:f5',
+    createdOn: new Date(),
+    description: 'Shamroze - i3 2011 - 8GB'
+  }, function(err) {
+    if(err) { console.error(err); }
+    console.log('finished populating devices');
+  });
 });

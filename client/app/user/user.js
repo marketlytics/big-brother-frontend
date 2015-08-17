@@ -3,8 +3,8 @@
 angular.module('bigBrotherApp')
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/admin', {
-        templateUrl: 'app/admin/admin.html',
-        controller: 'AdminCtrl'
+      .when('/users', {
+        templateUrl: 'app/user/user.html',
+        controller: 'UserCtrl'
       });
   });

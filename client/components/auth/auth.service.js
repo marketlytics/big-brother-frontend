@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('bigBrotherApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, Admin, $cookieStore, $q) {
     var currentUser = {};
     if($cookieStore.get('token')) {
-      currentUser = User.get();
+      currentUser = Admin.get();
     }
 
     return {
@@ -26,7 +26,7 @@ angular.module('bigBrotherApp')
         }).
         success(function(data) {
           $cookieStore.put('token', data.token);
-          currentUser = User.get();
+          currentUser = Admin.get();
           deferred.resolve(data);
           return cb();
         }).
@@ -59,10 +59,10 @@ angular.module('bigBrotherApp')
       createUser: function(user, callback) {
         var cb = callback || angular.noop;
 
-        return User.save(user,
+        return Admin.save(user,
           function(data) {
             $cookieStore.put('token', data.token);
-            currentUser = User.get();
+            currentUser = Admin.get();
             return cb(user);
           },
           function(err) {
@@ -82,7 +82,7 @@ angular.module('bigBrotherApp')
       changePassword: function(oldPassword, newPassword, callback) {
         var cb = callback || angular.noop;
 
-        return User.changePassword({ id: currentUser._id }, {
+        return Admin.changePassword({ id: currentUser._id }, {
           oldPassword: oldPassword,
           newPassword: newPassword
         }, function(user) {
@@ -125,15 +125,6 @@ angular.module('bigBrotherApp')
         } else {
           cb(false);
         }
-      },
-
-      /**
-       * Check if a user is an admin
-       *
-       * @return {Boolean}
-       */
-      isAdmin: function() {
-        return currentUser.role === 'admin';
       },
 
       /**

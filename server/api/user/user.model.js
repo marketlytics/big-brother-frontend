@@ -4,16 +4,24 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
 
+var UserDevices = new Schema({
+  deviceId: { type: Schema.ObjectId, ref: 'Device', required: true },
+  startedOn: { type: Date, required: true },
+  endedAt: { type: Date }
+});
+
 var UserSchema = new Schema({
-  name: String,
-  email: { type: String, lowercase: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true, lowercase: true },
   role: {
     type: String,
     default: 'user'
   },
   hashedPassword: String,
-  provider: String,
-  salt: String
+  salt: String,
+  leavesAllowed: Number,
+  devices: { type: [UserDevices], default: [] },
+  disabled: { type: Boolean, default: false }
 });
 
 /**
@@ -61,13 +69,6 @@ UserSchema
     return email.length;
   }, 'Email cannot be blank');
 
-// Validate empty password
-UserSchema
-  .path('hashedPassword')
-  .validate(function(hashedPassword) {
-    return hashedPassword.length;
-  }, 'Password cannot be blank');
-
 // Validate email is not taken
 UserSchema
   .path('email')
@@ -94,7 +95,7 @@ UserSchema
   .pre('save', function(next) {
     if (!this.isNew) return next();
 
-    if (!validatePresenceOf(this.hashedPassword))
+    if (this.role === 'admin' && !validatePresenceOf(this.hashedPassword))
       next(new Error('Invalid password'));
     else
       next();

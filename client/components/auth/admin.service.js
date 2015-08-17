@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('bigBrotherApp')
-  .factory('User', function ($resource) {
-    return $resource('/api/users/:id/:controller', {
+  .factory('Admin', function ($resource) {
+    return $resource('/api/admins/:id/:controller', {
       id: '@_id'
     },
     {

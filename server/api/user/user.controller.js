@@ -11,10 +11,9 @@ var validationError = function(res, err) {
 
 /**
  * Get list of users
- * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
+  User.find({role: 'user'}, function (err, users) {
     if(err) return res.status(500).send(err);
     res.status(200).json(users);
   });
@@ -22,15 +21,13 @@ exports.index = function(req, res) {
 
 /**
  * Creates a new user
+ * restriction: 'admin'
  */
 exports.create = function (req, res, next) {
   var newUser = new User(req.body);
-  newUser.provider = 'local';
-  newUser.role = 'user';
   newUser.save(function(err, user) {
     if (err) return validationError(res, err);
-    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
+    res.status(200);
   });
 };
 
@@ -40,10 +37,10 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var userId = req.params.id;
 
-  User.findById(userId, function (err, user) {
+  User.findOne({_id: userId, role: 'user'}, function (err, user) {
     if (err) return next(err);
     if (!user) return res.status(401).send('Unauthorized');
-    res.json(user.profile);
+    res.json(user);
   });
 };
 
@@ -52,44 +49,19 @@ exports.show = function (req, res, next) {
  * restriction: 'admin'
  */
 exports.destroy = function(req, res) {
-  User.findByIdAndRemove(req.params.id, function(err, user) {
+  User.findOneAndRemove({_id: req.params.id, role: 'user'}, function(err, user) {
     if(err) return res.status(500).send(err);
     return res.status(204).send('No Content');
   });
 };
 
 /**
- * Change a users password
+ * Edits a user
  */
-exports.changePassword = function(req, res, next) {
-  var userId = req.user._id;
-  var oldPass = String(req.body.oldPassword);
-  var newPass = String(req.body.newPassword);
-
-  User.findById(userId, function (err, user) {
-    if(user.authenticate(oldPass)) {
-      user.password = newPass;
-      user.save(function(err) {
-        if (err) return validationError(res, err);
-        res.status(200).send('OK');
-      });
-    } else {
-      res.status(403).send('Forbidden');
-    }
-  });
-};
-
-/**
- * Get my info
- */
-exports.me = function(req, res, next) {
-  var userId = req.user._id;
-  User.findOne({
-    _id: userId
-  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
-    if (err) return next(err);
-    if (!user) return res.status(401).send('Unauthorized');
-    res.json(user);
+exports.edit = function(req, res) {
+  User.findOneAndUpdate({_id: req.params.id, role: 'user'}, req.body, {upsert: true}, function(err) {
+    if (err) return validationError(res, err);
+    res.status(205);
   });
 };
 

@@ -6,7 +6,7 @@ var crypto = require('crypto');
 
 var UserDevices = new Schema({
   deviceId: { type: Schema.ObjectId, ref: 'Device', required: true },
-  startedOn: { type: Date, required: true },
+  startedOn: { type: Date, default: new Date() },
   endedAt: { type: Date }
 });
 

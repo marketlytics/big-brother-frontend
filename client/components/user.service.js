@@ -9,6 +9,12 @@ angular.module('bigBrotherApp')
       getList: {
         method: 'GET',
         isArray: true
+      },
+      addUser: {
+        method: 'POST'
+      },
+      deleteUser: {
+        method: 'DELETE'
       }
 	  });
   });

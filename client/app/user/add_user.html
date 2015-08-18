@@ -1,0 +1,29 @@
+<script type="text/ng-template" id="addUser.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Add User</h3>
+    </div>
+    <div class="modal-body">
+        <form>
+	        <div class="form-group">
+	        	<label for="name">Name</label>
+				<input type="text" class="form-control" ng-model="name" id="name" placeholder="Name">
+	        </div>
+	        <div class="form-group">
+	        	<label for="email">Email address</label>
+				<input type="email" class="form-control" ng-model="email" id="email" placeholder="Email">
+	        </div>
+	        <div class="form-group">
+	        	<label for="mac">Mac address</label>
+				<select ng-model="device" id="mac" ng-options="device.mac for device in devices"></select>
+	        </div>
+	        <div class="form-group">
+	        	<label for="leaves">Leaves Allowed</label>
+				<input type="text" class="form-control" ng-model="leavesAllowed" id="leaves" placeholder="Leaves">
+	        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

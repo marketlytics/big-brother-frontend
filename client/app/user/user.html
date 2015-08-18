@@ -4,8 +4,19 @@
 
 	<h1>Users</h1>
 
+	<div ng-show="isLoggedIn()">
+		<button ng-click="open()">Add</button>
+		<button>Edit</button>
+		<button ng-click="onDelete()">Delete</button>
+	</div>
+
 	<ul>
-		<li data-ng-repeat="user in users">{{user.email}}</li>
+		<li ng-repeat="user in users"><input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/> {{user.email}}</li>
+
 	</ul>
+	{{selected.user}}
+
+	<!-- modal templates -->
+	<div ng-include="'app/user/add_user.html'"></div>
 
 </div>

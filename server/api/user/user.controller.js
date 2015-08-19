@@ -61,7 +61,7 @@ exports.destroy = function(req, res) {
 exports.edit = function(req, res) {
   User.findOneAndUpdate({_id: req.params.id, role: 'user'}, req.body, {upsert: true}, function(err) {
     if (err) return validationError(res, err);
-    res.status(205);
+    res.status(205).send('Reset Content');
   });
 };
 

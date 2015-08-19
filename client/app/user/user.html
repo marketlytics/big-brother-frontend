@@ -5,8 +5,8 @@
 	<h1>Users</h1>
 
 	<div ng-show="isLoggedIn()">
-		<button ng-click="open()">Add</button>
-		<button>Edit</button>
+		<button ng-click="openUserModal('add')">Add</button>
+		<button ng-click="openUserModal('edit')" ng-disabled="getCheckedCount() !== 1">Edit</button>
 		<button ng-click="onDelete()">Delete</button>
 	</div>
 
@@ -16,7 +16,6 @@
 	</ul>
 	{{selected.user}}
 
-	<!-- modal templates -->
-	<div ng-include="'app/user/add_user.html'"></div>
+	<div ng-include="'app/user/user_form.html'"></div>
 
 </div>

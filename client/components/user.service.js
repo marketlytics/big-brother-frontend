@@ -15,6 +15,9 @@ angular.module('bigBrotherApp')
       },
       deleteUser: {
         method: 'DELETE'
+      },
+      editUser: {
+        method: 'PUT'
       }
 	  });
   });

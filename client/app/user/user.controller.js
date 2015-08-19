@@ -85,20 +85,23 @@ angular.module('bigBrotherApp')
 
 angular.module('bigBrotherApp')
   .controller('UserModalInstanceCtrl', function ($scope, $timeout, User, $modalInstance, devices, user) {
+  	
   	$scope.devices = devices;
   	
   	if(user !== null) {
   		$scope.name = user.name;
 		$scope.email = user.email;
-		devices.$promise.then(function(devices) {
-			$timeout(function() {
-				$scope.device = devices.filter(function(device) {
-					return device._id === user.devices.filter(function(device) {
-						return typeof device.endedOn === 'undefined';
-					})[0].deviceId;
-				})[0];
-			}, 100);
-		});
+		if(user.devices.length > 0) {
+			devices.$promise.then(function(devices) {
+				$timeout(function() {
+					$scope.device = devices.filter(function(device) {
+						return device._id === user.devices.filter(function(device) {
+							return typeof device.endedOn === 'undefined';
+						})[0].deviceId;
+					})[0];
+				}, 100);
+			});
+		}
 		$scope.leavesAllowed = user.leavesAllowed;
   	}
 
@@ -123,30 +126,38 @@ angular.module('bigBrotherApp')
 			userCpy.email = $scope.email;
 			userCpy.leavesAllowed = $scope.leavesAllowed;
 
-			//add new device
-			if(user.devices[user.devices.length - 1].deviceId !== $scope.device._id) {
-				var currentDevice = userCpy.devices.filter(function(device) {
-					return typeof device.endedOn === 'undefined';
+			//add endedOn field on the current device
+			if(userCpy.devices.length > 0 && $scope.device) {
+				var currentDevice = userCpy.devices.filter(function(deviceRecord) {
+					return typeof deviceRecord.endedOn === 'undefined';
 				})[0];
-				currentDevice.endedOn = new Date();
+
+				if(currentDevice && currentDevice.deviceId !== $scope.device._id) {
+					currentDevice.endedOn = new Date();
+				}
+			}
+
+			//add new device
+			if($scope.device) {
 				userCpy.devices.push({
-					deviceId: $scope.device._id
+					deviceId: $scope.device._id,
+					startedOn: new Date()
 				});
 			}
 
-			//delete unwanted fields
+			//delete & modify other fields
 			delete userCpy._id;
 			delete userCpy.__v;
 			userCpy.devices.forEach(function(deviceRecord) {
 				delete deviceRecord._id;
-				if(typeof deviceRecord.startedOn !== 'undefined') {
+				if(typeof deviceRecord.startedOn === 'string') {
 					deviceRecord.startedOn = new Date(deviceRecord.startedOn);
 				}
 				if(typeof deviceRecord.endedOn === 'string') {
 					deviceRecord.endedOn = new Date(deviceRecord.endedOn);
 				}
 			});
-			
+
 			User.editUser({id: user._id}, userCpy,
 			function(data) {
 				$modalInstance.close('');

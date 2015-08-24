@@ -59,8 +59,9 @@ exports.destroy = function(req, res) {
  * Edits a user
  */
 exports.edit = function(req, res) {
-  User.findOneAndUpdate({_id: req.params.id, role: 'user'}, req.body, {upsert: true}, function(err) {
+  User.findOneAndUpdate({_id: req.params.id, role: 'user'}, req.body, {upsert: false}, function(err, user) {
     if (err) return validationError(res, err);
+    if (!user) return res.status(401).send('Unauthorized');
     res.status(205).send('Reset Content');
   });
 };

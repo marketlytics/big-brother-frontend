@@ -1,7 +1,6 @@
 'use strict';
 
 var should = require('should');
-var app = require('../../app');
 var User = require('./user.model');
 var Device = require('../device/device.model');
 
@@ -21,16 +20,8 @@ var device = new Device({
 });
 
 describe('User Model', function() {
-  before(function(done) {
-    User.remove().exec().then(function() {
-      Device.remove().exec().then(function() {
-        done();
-      });
-    });
-
-  });
-
-  afterEach(function(done) {
+  
+  beforeEach(function(done) {
     User.remove().exec().then(function() {
       Device.remove().exec().then(function() {
         done();
@@ -130,8 +121,7 @@ describe('User Model', function() {
   });
 
   it('should fail when saving with startedOn property greater than endedOn property', function(done) {
-    var deviceDup = new Device(device);
-    deviceDup.save(function(err, device) {
+    device.save(function(err, device) {
       var userDup = new User(user);
       userDup.devices = [{
         device: device._id,

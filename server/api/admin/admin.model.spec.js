@@ -30,14 +30,7 @@ var adminWithoutPassword = new User({
 
 describe('User Model (Admin)', function() {
 
-	before(function(done) {
-    // Clear users before testing
-    User.remove().exec().then(function() {
-      done();
-    });
-  });
-
-  afterEach(function(done) {
+	beforeEach(function(done) {
     User.remove().exec().then(function() {
       done();
     });

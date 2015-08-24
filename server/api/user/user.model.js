@@ -139,7 +139,8 @@ UserSchema
     });
 
     if(activeDevice.length === 1) {
-      mongoose.model('User').findOne({'devices': {$elemMatch: { $and : [{deviceId: activeDevice._id}, {endedOn: {$exists: false}}]}}}, function(err, device) {
+      activeDevice = activeDevice[0];
+      mongoose.model('User').findOne({'devices': {$elemMatch: { $and : [{deviceId: activeDevice.deviceId}, {endedOn: {$exists: false}}]}}}, function(err, device) {
         if(err) throw err;
         if(device) {
           return respond(false);

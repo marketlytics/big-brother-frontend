@@ -103,6 +103,8 @@ angular.module('bigBrotherApp')
   .controller('UserModalInstanceCtrl', function ($scope, $timeout, User, $modalInstance, devices, user) {
   	
   	$scope.devices = devices;
+  	$scope.user = user;
+  	$scope.errors = [];
   	
   	if(user !== null) {
   		$scope.name = user.name;
@@ -121,19 +123,28 @@ angular.module('bigBrotherApp')
 		$scope.leavesAllowed = user.leavesAllowed;
   	}
 
+  	$scope.handleErrors = function(err) {
+  		$scope.errors = [];
+  		if(typeof err.data !== 'undefined' && err.data.errors !== 'undefined') {
+			for(var path in err.data.errors) {
+				$scope.errors.push(err.data.errors[path].message);
+			}
+		}
+  	};
+
   	$scope.ok = function() {
   		if(user === null) {
 			User.addUser({}, {
 				name: $scope.name,
 				email: $scope.email,
-				devices: [{
+				devices: $scope.device ? [{
 					deviceId: $scope.device._id
-				}],
+				}] : [],
 				leavesAllowed: $scope.leavesAllowed
 			}, function(data) {
 				$modalInstance.close('');
 			}, function(err) {
-				//TODO: show error messages
+				$scope.handleErrors(err);
 			});
 		} else {
 			var userCpy = angular.copy(user);
@@ -178,8 +189,7 @@ angular.module('bigBrotherApp')
 			function(data) {
 				$modalInstance.close('');
 			}, function(err) {
-				//TODO: show error messages
-				console.log(err);
+				$scope.handleErrors(err);
 			});
 		}
   	};

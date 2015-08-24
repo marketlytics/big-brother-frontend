@@ -1,0 +1,12 @@
+.user-list td, .user-list th {
+	padding: 10px;
+}
+
+.user-list tr td:first-child,
+.user-list .checkbox {
+	padding-left:0px;
+}
+
+.modal-header {
+	padding-bottom: 24px !important;
+}

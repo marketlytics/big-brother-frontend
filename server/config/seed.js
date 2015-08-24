@@ -16,11 +16,11 @@ User.find({}).remove(function() {
     email: 'admin@admin.com',
     password: 'admin'
   }, {
-    name: 'Test User 1',
-    email: 'test1@test.com'
+    name: 'Abdul Qadir',
+    email: 'abdulqadir@marketlytics.com'
   }, {
-    name: 'Test User 2',
-    email: 'test2@test.com'
+    name: 'Mashhood Rastgar',
+    email: 'mashhoodr@gmail.com'
   }, function(err) {
       if(err) { console.error(err); }
       console.log('finished populating users');

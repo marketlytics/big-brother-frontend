@@ -7,19 +7,34 @@
 	<div ng-show="isLoggedIn()">
 		<button class="btn btn-primary" ng-click="openUserModal('add')">Add</button>
 		<button class="btn btn-primary" ng-click="openUserModal('edit')" ng-disabled="getCheckedCount() !== 1">Edit</button>
-		<button class="btn btn-primary" ng-click="onDelete()">Delete</button>
+		<button class="btn btn-primary" ng-click="onDelete()" ng-disabled="getCheckedCount() === 0">Delete</button>
 	</div>
 
-	<ul>
-		<li ng-repeat="user in users">
-			<input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/>
-			<img gravatar-src="'{{user.email}}'" />
-			<p>{{user.email}}</p>
-			<p>{{user.device}}</p>
-		</li>
-	</ul>
-	{{selected.user}}
+	<table class="user-list">
+		<tr>
+			<th></th>
+			<th></th>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Device</th>
+			<th>Leaves Allowed</th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="user in users">
+			<td><div class="checkbox"><label><input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/></label></div></td>
+			<td><img gravatar-src="'{{user.email}}'" /></td>
+			<td><p>{{user.name}}</p></td>
+			<td><p>{{user.email}}</p></td>
+			<td><p ng-show="user.device">{{user.device}}</p><p ng-hide="user.device">Device N/A</p></td>
+			<td><p ng-show="user.leavesAllowed">{{user.leavesAllowed}}</p><p ng-hide="user.leavesAllowed">Leaves N/A</p></td>
+			<td><a href="#">Show device history</a></td>
+		</tr>
+	</table>
 
 	<div ng-include="'app/user/user_form.html'"></div>
 
 </div>
+
+<script>
+	$.material.init();
+</script>

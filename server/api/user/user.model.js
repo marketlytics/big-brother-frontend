@@ -96,80 +96,59 @@ var getUniqueDeviceIds = function(devices) {
   return deviceIds;
 };
 
-var validateDevicePosessionRange = function(devices) {
-  var isValid = true;
-  devices.forEach(function(device) {
-    if(typeof device.endedOn !== 'undefined' && typeof device.startedOn !== 'undefined' && device.endedOn.getTime() < device.startedOn.getTime())
-      isValid = false;
-  });
-  return isValid;
-};
-
-var validateIfDevicesExist = function(devices, cb) {
-  var deviceIds = getUniqueDeviceIds(devices);
-  if(deviceIds.length === 0) {
-    return cb(true);
-  }
-  Device.find({_id: {$in: deviceIds}}, function(err, devices) {
-    if(err) throw err;
-    if(devices.length !== deviceIds.length)
-      return cb(false);
-    cb(true);
-  });
-};
-
-var validateIfActiveDeviceIsNotAssigned = function(devices, cb) {
-  var activeDevice = devices.filter(function(device) {
-    return typeof device.endedOn === 'undefined';
-  });
-
-  if(activeDevice.length === 1) {
-    mongoose.model('User').findOne({'devices': {$elemMatch: { $and : [{deviceId: activeDevice._id}, {endedOn: {$exists: false}}]}}}, function(err, device) {
-      if(err) throw err;
-      if(device) {
-        return cb(false);
-      }
-      cb(true);
-    });
-  } else {
-    cb(true);
-  }
-};
-
-var validateIfMultipleActiveDevices = function(devices, cb) {
-  var activeDevice = devices.filter(function(device) {
-    return typeof device.endedOn === 'undefined';
-  });
-
-  if(activeDevice.length > 1) {
-    return cb(false);
-  } 
-  
-  cb(true);
-};
-
 UserSchema
   .path('devices')
   .validate(function(devices) {
-    return validateDevicePosessionRange(devices);
+    var isValid = true;
+    devices.forEach(function(device) {
+      if(typeof device.endedOn !== 'undefined' && typeof device.startedOn !== 'undefined' && device.endedOn.getTime() < device.startedOn.getTime())
+        isValid = false;
+    });
+    return isValid;
   }, 'startedOn cannot be greater than endedOn');
 
 UserSchema
   .path('devices')
   .validate(function(devices, respond) {
-    validateIfDevicesExist(devices, respond);
+    if(devices.length === 0) {
+      return respond(true);
+    }
+    var deviceIds = getUniqueDeviceIds(devices);
+    Device.find({_id: {$in: deviceIds}}, function(err, devices) {
+      if(err) throw err;
+      if(devices.length !== deviceIds.length)
+        return respond(false);
+      respond(true);
+    });
   }, 'Invalid device reference');
 
 UserSchema
   .path('devices')
   .validate(function(devices, respond) {
-    validateIfMultipleActiveDevices(devices, respond);
+    var activeDevice = devices.filter(function(device) {
+      return typeof device.endedOn === 'undefined';
+    });
+    respond( !(activeDevice.length > 1) )
   }, 'A user cannot have two active devics at once');
 
 UserSchema
   .path('devices')
   .validate(function(devices, respond) {
-    validateIfActiveDeviceIsNotAssigned(devices, respond);
+    var activeDevice = devices.filter(function(device) {
+      return typeof device.endedOn === 'undefined';
+    });
+
+    if(activeDevice.length === 1) {
+      mongoose.model('User').findOne({'devices': {$elemMatch: { $and : [{deviceId: activeDevice._id}, {endedOn: {$exists: false}}]}}}, function(err, device) {
+        if(err) throw err;
+        if(device) {
+          return respond(false);
+        }
+        respond(true);
+      });
+    } else {
+      respond(true);
+    }
   }, 'Device already in use');
 
 var validatePresenceOf = function(value) {

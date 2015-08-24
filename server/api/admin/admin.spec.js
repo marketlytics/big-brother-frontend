@@ -13,8 +13,14 @@ var admin = new User({
 });
 
 describe('Admin Login', function() {
+	beforeEach(function(done) {
+		User.remove().exec().then(function() {
+			done();
+		});
+	});
+
 	it('should return token on passing correct credentials', function(done) {
-		admin.save(function(err, admin) {
+		admin.save(function(err, user) {
 			request(app)
 				.post('/auth/local')
 				.send({
@@ -30,7 +36,7 @@ describe('Admin Login', function() {
 	});
 
 	it('should return 401 on passing in-correct credentials', function(done) {
-		admin.save(function(err, admin) {
+		admin.save(function(err, user) {
 			request(app)
 				.post('/auth/local')
 				.send({

@@ -3,6 +3,7 @@
 angular.module('bigBrotherApp')
   .controller('UserCtrl', function ($scope, Auth, User, Device, $http, $timeout, $modal) {
   	  $scope.users = [];
+  	  var deviceList = Device.getList();
 
       var getUserList = function() {
 	  	User.getList(function(data) {
@@ -11,6 +12,21 @@ angular.module('bigBrotherApp')
 				$scope.users = angular.copy(data);
 				$scope.users.forEach(function(user) {
 					user.checked = false;
+					user.device = '';
+					var userDevice = user.devices.filter(function(device) {
+						return typeof device.endedOn === 'undefined';
+					})[0];
+
+					if(userDevice) {
+						deviceList.$promise.then(function(devices) {
+							var device = devices.filter(function(device) {
+								return device._id === userDevice.deviceId;
+							})[0];
+							if(device) {
+								user.device = device.mac;
+							}
+						});
+					}
 				});
 			}, 100);
 		});
@@ -25,7 +41,7 @@ angular.module('bigBrotherApp')
       		controller: 'UserModalInstanceCtrl',
       		resolve: {
       			devices: function() {
-      				return Device.getList();
+      				return deviceList;
       			},
       			user: function() {
       				if(type === 'add') {

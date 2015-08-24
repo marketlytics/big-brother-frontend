@@ -5,14 +5,18 @@
 	<h1>Users</h1>
 
 	<div ng-show="isLoggedIn()">
-		<button ng-click="openUserModal('add')">Add</button>
-		<button ng-click="openUserModal('edit')" ng-disabled="getCheckedCount() !== 1">Edit</button>
-		<button ng-click="onDelete()">Delete</button>
+		<button class="btn btn-primary" ng-click="openUserModal('add')">Add</button>
+		<button class="btn btn-primary" ng-click="openUserModal('edit')" ng-disabled="getCheckedCount() !== 1">Edit</button>
+		<button class="btn btn-primary" ng-click="onDelete()">Delete</button>
 	</div>
 
 	<ul>
-		<li ng-repeat="user in users"><input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/> {{user.email}}</li>
-
+		<li ng-repeat="user in users">
+			<input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/>
+			<img gravatar-src="'{{user.email}}'" />
+			<p>{{user.email}}</p>
+			<p>{{user.device}}</p>
+		</li>
 	</ul>
 	{{selected.user}}
 

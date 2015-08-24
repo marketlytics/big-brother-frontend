@@ -28,6 +28,7 @@ var UserSchema = new Schema({
 /**
  * Virtuals
  */
+
 UserSchema
   .virtual('password')
   .set(function(password) {
@@ -83,71 +84,93 @@ UserSchema
       }
       respond(true);
     });
-}, 'The specified email address is already in use.');
+  }, 'The specified email address is already in use.');
 
-/*
- * Validate if device exists
- * Validate if there are multiple active devices at a time
- * Validate if the active device is already assigned to another user
- * Validate if endedOn property is greater than startedOn property
- */
+
+var getUniqueDeviceIds = function(devices) {
+  var deviceIds = [];
+  devices.forEach(function(device) {
+    if(deviceIds.indexOf(device.deviceId) < 0)
+      deviceIds.push(device.deviceId)
+  });
+  return deviceIds;
+};
+
+var validateDevicePosessionRange = function(devices) {
+  var isValid = true;
+  devices.forEach(function(device) {
+    if(typeof device.endedOn !== 'undefined' && typeof device.startedOn !== 'undefined' && device.endedOn.getTime() < device.startedOn.getTime())
+      isValid = false;
+  });
+  return isValid;
+};
+
+var validateIfDevicesExist = function(devices, cb) {
+  var deviceIds = getUniqueDeviceIds(devices);
+  if(deviceIds.length === 0) {
+    return cb(true);
+  }
+  Device.find({_id: {$in: deviceIds}}, function(err, devices) {
+    if(err) throw err;
+    if(devices.length !== deviceIds.length)
+      return cb(false);
+    cb(true);
+  });
+};
+
+var validateIfActiveDeviceIsNotAssigned = function(devices, cb) {
+  var activeDevice = devices.filter(function(device) {
+    return typeof device.endedOn === 'undefined';
+  });
+
+  if(activeDevice.length === 1) {
+    mongoose.model('User').findOne({'devices': {$elemMatch: { $and : [{deviceId: activeDevice._id}, {endedOn: {$exists: false}}]}}}, function(err, device) {
+      if(err) throw err;
+      if(device) {
+        return cb(false);
+      }
+      cb(true);
+    });
+  } else {
+    cb(true);
+  }
+};
+
+var validateIfMultipleActiveDevices = function(devices, cb) {
+  var activeDevice = devices.filter(function(device) {
+    return typeof device.endedOn === 'undefined';
+  });
+
+  if(activeDevice.length > 1) {
+    return cb(false);
+  } 
+  
+  cb(true);
+};
+
+UserSchema
+  .path('devices')
+  .validate(function(devices) {
+    return validateDevicePosessionRange(devices);
+  }, 'startedOn cannot be greater than endedOn');
+
 UserSchema
   .path('devices')
   .validate(function(devices, respond) {
-    var self = this;
+    validateIfDevicesExist(devices, respond);
+  }, 'Invalid device reference');
 
-    if(devices.length === 0) {
-      respond(true);
-    }
+UserSchema
+  .path('devices')
+  .validate(function(devices, respond) {
+    validateIfMultipleActiveDevices(devices, respond);
+  }, 'A user cannot have two active devics at once');
 
-    var deviceIds = []; //unique deviceIds
-    var respondFlag = true;
-    devices.forEach(function(device) {
-      if(deviceIds.indexOf(device.deviceId) < 0) {
-        deviceIds.push(device.deviceId);
-      }
-
-      //check if endedOn is greater than startedOn
-      if(typeof device.startedOn !== 'undefined' && typeof device.endedOn !== 'undefined') {
-        if(device.endedOn.getTime() < device.startedOn.getTime()) {
-          respondFlag = false;
-        }
-      }
-    });
-
-    if(!respondFlag) {
-      return respond(false);
-    }
-
-    //check if there is any invalid device id
-    Device.find({_id: {$in : deviceIds}}, function(err, devices) {
-      if(err) throw err;
-      
-      if(devices.length !== deviceIds.length) {
-        return respond(false);
-      }
-      
-      //check if the device assigned is not already assigned to any other user
-      var activeDevice = devices.filter(function(device) {
-        return typeof device.endedOn === 'undefined';
-      });
-      if(activeDevice.length > 1) {
-        respond(false);
-      } else if (activeDevice.length === 1) {
-        activeDevice = activeDevice[0];
-        self.constructor.findOne({'devices': {$elemMatch: { $and : [{deviceId: activeDevice.deviceId}, {endedOn: {$exists: false}}]}}}, function(err, device) {
-          if(err) throw err;
-          if(device) {
-            return respond(false);
-          }
-          respond(true);
-        });
-      } else {
-        respond(true);
-      }
-
-    });
-}, 'Device validation failed!');
+UserSchema
+  .path('devices')
+  .validate(function(devices, respond) {
+    validateIfActiveDeviceIsNotAssigned(devices, respond);
+  }, 'Device already in use');
 
 var validatePresenceOf = function(value) {
   return value && value.length;
@@ -158,13 +181,11 @@ var validatePresenceOf = function(value) {
  */
 UserSchema
   .pre('save', function(next) {
-    if (!this.isNew) return next();
-
     if (this.role === 'admin' && !validatePresenceOf(this.hashedPassword))
       next(new Error('Invalid password'));
     else if (this.role === 'user' && validatePresenceOf(this.hashedPassword))
-      next(new Error('Password cannot be set for users'))
-    else
+      next(new Error('Password cannot be set for users'));
+    else 
       next();
   });
 

@@ -34,7 +34,7 @@ angular.module('bigBrotherApp')
 
 	  getUserList();
 
-      $scope.openUserModal = function(type) {
+      $scope.openUserModal = function(user) {
       	var modalInstance = $modal.open({
       		templateUrl: 'userForm.html',
       		animation: true,
@@ -44,14 +44,11 @@ angular.module('bigBrotherApp')
       				return deviceList;
       			},
       			user: function() {
-      				if(type === 'add') {
+      				if(user === null) {
       					return null;
       				}
-      				var scopeUser = $scope.users.filter(function(user) {
-      					return user.checked;
-      				})[0];
-      				return $scope.originalUsersArr.filter(function(user) {
-      					return scopeUser._id === user._id;
+      				return $scope.originalUsersArr.filter(function(originalUser) {
+      					return originalUser._id === user._id;
       				})[0];
       			}
       		}
@@ -161,15 +158,11 @@ angular.module('bigBrotherApp')
 
 				if(currentDevice && currentDevice.deviceId !== $scope.device._id) {
 					currentDevice.endedOn = new Date();
+					userCpy.devices.push({
+						deviceId: $scope.device._id,
+						startedOn: new Date()
+					});
 				}
-			}
-
-			//add new device
-			if($scope.device) {
-				userCpy.devices.push({
-					deviceId: $scope.device._id,
-					startedOn: new Date()
-				});
 			}
 
 			//delete & modify other fields
@@ -184,6 +177,8 @@ angular.module('bigBrotherApp')
 					deviceRecord.endedOn = new Date(deviceRecord.endedOn);
 				}
 			});
+
+			console.log(userCpy);
 
 			User.editUser({id: user._id}, userCpy,
 			function(data) {

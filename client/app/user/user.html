@@ -2,38 +2,44 @@
 
 <div class="container">
 
-	<h1>Users</h1>
-
-	<div ng-show="isLoggedIn()">
-		<button class="btn btn-primary" ng-click="openUserModal('add')">Add</button>
-		<button class="btn btn-primary" ng-click="openUserModal('edit')" ng-disabled="getCheckedCount() !== 1">Edit</button>
-		<button class="btn btn-primary" ng-click="onDelete()" ng-disabled="getCheckedCount() === 0">Delete</button>
+	<div class="action-wrapper" ng-if="isLoggedIn()">
+		<button class="btn btn-fab btn-raised btn-primary" ng-click="openUserModal(null)"><i class="mdi-content-add"></i><div class="ripple-wrapper"></div></button>
+		<button class="btn btn-fab btn-raised btn-primary" ng-click="onDelete()"><i class="mdi-action-delete"></i><div class="ripple-wrapper"></div></button>
 	</div>
 
-	<table class="user-list">
-		<tr>
-			<th></th>
-			<th></th>
-			<th>Name</th>
-			<th>Email</th>
-			<th>Device</th>
-			<th>Leaves Allowed</th>
-			<th></th>
-		</tr>
-		<tr ng-repeat="user in users">
-			<td><div class="checkbox"><label><input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/></label></div></td>
-			<td><img gravatar-src="'{{user.email}}'" /></td>
-			<td><p>{{user.name}}</p></td>
-			<td><p>{{user.email}}</p></td>
-			<td><p ng-show="user.device">{{user.device}}</p><p ng-hide="user.device">N/A</p></td>
-			<td><p ng-show="user.leavesAllowed">{{user.leavesAllowed}}</p><p ng-hide="user.leavesAllowed">N/A</p></td>
-			<td><a href="#">Show device history</a></td>
-		</tr>
-	</table>
-
-	<div ng-include="'app/user/user_form.html'"></div>
-
+	<div class="user-list">
+		<div class="user shadow-z-5" ng-repeat="user in users">
+			<div class="img-wrapper">
+				<img gravatar-src="'{{user.email}}'" gravatar-size="250"/>
+				<div class="img-overlay"></div>
+				<div ng-if="isLoggedIn()" class="icon-wrapper">
+					<i class="mdi-image-edit" ng-click="openUserModal(user)"></i>
+				</div>
+				<div class="user-name">
+					<div ng-if="isLoggedIn()" class="checkbox"><label><input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/></label></div>
+					<p>{{user.name}}</p>
+				</div>
+			</div>
+			<div class="user-info">
+				<div class="info-item">
+					<i class="mdi-content-mail"></i>
+					<span>{{user.email}}</span>
+				</div>
+				<div class="info-item">
+					<i class="mdi-hardware-laptop-mac"></i>
+					<span ng-show="user.device">{{user.device}}</span><span ng-hide="user.device">N/A</span>
+				</div>
+				<div class="info-item">
+					<i class="mdi-notification-event-available"></i>
+					<span ng-show="user.leavesAllowed">{{user.leavesAllowed}}</span><span ng-hide="user.leavesAllowed">N/A</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 </div>
+
+<div ng-include="'app/user/user_form.html'"></div>
 
 <script>
 	$.material.init();

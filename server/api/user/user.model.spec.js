@@ -46,17 +46,6 @@ describe('User Model', function() {
     });
   });
 
-  it('should fail when saving with invalid device id', function(done) {
-    var userDup = new User(user);
-    userDup.devices = [{
-      deviceId: 'abcd12345'
-    }];
-    userDup.save(function(err, user) {
-      should.exist(err);
-      done();
-    });
-  });
-
   it('should fail when saving with device id which does not exist in device table', function(done) {
     var userDup = new User(user);
     userDup.devices = [{

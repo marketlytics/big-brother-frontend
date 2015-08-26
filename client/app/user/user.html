@@ -27,11 +27,11 @@
 				</div>
 				<div class="info-item">
 					<i class="mdi-hardware-laptop-mac"></i>
-					<span ng-show="user.device">{{user.device}}</span><span ng-hide="user.device">N/A</span>
+					<span ng-if="user.device">{{user.device}}</span><span ng-if="!user.device">N/A</span>
 				</div>
 				<div class="info-item">
 					<i class="mdi-notification-event-available"></i>
-					<span ng-show="user.leavesAllowed">{{user.leavesAllowed}}</span><span ng-hide="user.leavesAllowed">N/A</span>
+					<span ng-if="user.leavesAllowed">{{user.leavesAllowed}}</span><span ng-if="!user.leavesAllowed">N/A</span>
 				</div>
 			</div>
 		</div>

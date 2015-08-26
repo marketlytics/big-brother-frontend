@@ -90,8 +90,8 @@ UserSchema
 var getUniqueDeviceIds = function(devices) {
   var deviceIds = [];
   devices.forEach(function(device) {
-    if(deviceIds.indexOf(device.deviceId) < 0)
-      deviceIds.push(device.deviceId)
+    if(deviceIds.indexOf(device.deviceId.toString()) < 0)
+      deviceIds.push(device.deviceId.toString())
   });
   return deviceIds;
 };

@@ -151,18 +151,22 @@ angular.module('bigBrotherApp')
 			userCpy.leavesAllowed = $scope.leavesAllowed;
 
 			//add endedOn field on the current device
+			var currentDevice = null;
+			var flag = false;
 			if(userCpy.devices.length > 0 && $scope.device) {
 				var currentDevice = userCpy.devices.filter(function(deviceRecord) {
 					return typeof deviceRecord.endedOn === 'undefined';
 				})[0];
 
-				if(currentDevice && currentDevice.deviceId !== $scope.device._id) {
-					currentDevice.endedOn = new Date();
-					userCpy.devices.push({
-						deviceId: $scope.device._id,
-						startedOn: new Date()
-					});
-				}
+				flag = currentDevice && currentDevice.deviceId !== $scope.device._id;
+				if(flag) currentDevice.endedOn = new Date();
+			}
+
+			if( ($scope.device && userCpy.devices.length === 0) || flag) {
+				userCpy.devices.push({
+					deviceId: $scope.device._id,
+					startedOn: new Date()
+				});
 			}
 
 			//delete & modify other fields
@@ -177,8 +181,6 @@ angular.module('bigBrotherApp')
 					deviceRecord.endedOn = new Date(deviceRecord.endedOn);
 				}
 			});
-
-			console.log(userCpy);
 
 			User.editUser({id: user._id}, userCpy,
 			function(data) {

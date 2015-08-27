@@ -284,6 +284,20 @@ module.exports = function (grunt) {
       }
     },
 
+    concat: {
+      options: {
+        process: function(src, filepath) {
+          var newSrc = src;
+          if(filepath.indexOf('.css') >= 0 && filepath.indexOf('bower_components') >= 0) {
+            var path = filepath.substring(filepath.indexOf('bower_components'), filepath.lastIndexOf('/'));
+            path += '/../fonts/';
+            newSrc = src.replace(/fonts\//g, path);
+          }
+          return newSrc;
+        }
+      }
+    },
+
     // Allow the use of non-minsafe AngularJS files. Automatically makes it
     // minsafe compatible so Uglify does not destroy the ng references
     ngAnnotate: {

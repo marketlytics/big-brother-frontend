@@ -92,12 +92,22 @@ angular.module('bigBrotherApp')
 angular.module('bigBrotherApp')
   .controller('DeviceModalInstanceCtrl', function ($scope, $timeout, $modalInstance, Device, devices, device) {
 		
-		$scope.errors = [];
-		$scope.device = {
-			name: device !== null ? device.name : '',
-			mac: device !== null ? device.mac : '',
-			description: device !== null ? device.description : ''
-		};
+	$scope.errors = [];
+	$scope.device = {
+		name: device !== null ? device.name : '',
+		mac: device !== null ? device.mac : '',
+		description: device !== null ? device.description : ''
+	};
+
+	var handleErrors = function(err) {
+  		$scope.errors = [];
+  		if(typeof err.data !== 'undefined' && err.data.errors !== 'undefined') {
+			for(var path in err.data.errors) {
+				$scope.errors.push(err.data.errors[path].message);
+			}
+		}
+  	};
+
   	$scope.ok = function() {
   		if(device === null) {
 				Device.addDevice({}, 
@@ -106,8 +116,7 @@ angular.module('bigBrotherApp')
 					$modalInstance.close('');
 				},
 				function(err) {
-					console.log(err);
-					//handle errors
+					handleErrors(err);
 				});
 			} else {
 				var newDevice = angular.copy(device);
@@ -122,7 +131,7 @@ angular.module('bigBrotherApp')
 				function(data) {
 					$modalInstance.close('');
 				}, function(err) {
-					console.log(err);
+					handleErrors(err);
 				});
 			}
 		};

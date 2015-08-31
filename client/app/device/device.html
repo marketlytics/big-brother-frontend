@@ -16,8 +16,8 @@
 							<i class="mdi-hardware-laptop-mac"></i>
 						</div>
 						<div class="row-content">
-							<div class="action-secondary"><i class="mdi-image-edit" ng-click="openDeviceModal(device)"></i></div>
-							<h4 class="list-group-item-heading"><div class="checkbox"><label><input type="checkbox" name="{{device._id}}" ng-model="selected.device" ng-change="onToggle(device)"/></label></div>{{device.name}}</h4>
+							<div class="action-secondary" ng-if="isLoggedIn()"><i class="mdi-image-edit" ng-click="openDeviceModal(device)"></i></div>
+							<h4 class="list-group-item-heading"><div class="checkbox" ng-if="isLoggedIn()"><label><input type="checkbox" name="{{device._id}}" ng-model="selected.device" ng-change="onToggle(device)"/></label></div>{{device.name}}</h4>
 							<p class="list-group-item-text">{{device.mac}}</p>
 							<p class="list-group-item-text">{{device.description}}</p>
 						</div>

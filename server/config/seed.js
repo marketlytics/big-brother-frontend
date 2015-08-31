@@ -56,10 +56,12 @@ Record.find({}).remove(function() {
 
 Device.find({}).remove(function() {
   Device.create({
+    name: 'mac01',
     mac: '10:93:e9:5e:f5:92',
     createdOn: new Date(),
     description: 'AQ - i5 2011 - 4GB'
   }, {
+    name: 'mac02',
     mac: 'e3:91:21:54:97:f5',
     createdOn: new Date(),
     description: 'Shamroze - i3 2011 - 8GB'

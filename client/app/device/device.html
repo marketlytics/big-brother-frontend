@@ -1,11 +1,37 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-	
-	<h1>Devices</h1>
 
-	<ul>
-		<li data-ng-repeat="device in devices">{{device.mac}}</li>
-	</ul>
+	<div class="action-wrapper" ng-if="isLoggedIn()">
+		<button class="btn btn-fab btn-raised btn-primary" ng-click="openDeviceModal(null)"><i class="mdi-content-add"></i><div class="ripple-wrapper"></div></button>
+		<button class="btn btn-fab btn-raised btn-primary" ng-click="onDelete()"><i class="mdi-action-delete"></i><div class="ripple-wrapper"></div></button>
+	</div>
+
+	<div class="device-list">
+		<div class="row" data-ng-repeat="row in rows">
+			<div class="col-md-4" data-ng-repeat="device in row">
+				<div class="list-group">
+					<div class="list-group-item">
+						<div class="row-action-primary">
+							<i class="mdi-hardware-laptop-mac"></i>
+						</div>
+						<div class="row-content">
+							<div class="action-secondary"><i class="mdi-image-edit" ng-click="openDeviceModal(device)"></i></div>
+							<h4 class="list-group-item-heading"><div class="checkbox"><label><input type="checkbox" name="{{device._id}}" ng-model="selected.device" ng-change="onToggle(device)"/></label></div>{{device.name}}</h4>
+							<p class="list-group-item-text">{{device.mac}}</p>
+							<p class="list-group-item-text">{{device.description}}</p>
+						</div>
+					</div>
+					<div class="list-group-separator"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
+
+<div ng-include="'app/device/device_form.html'"></div>
+
+<script>
+	$.material.init();
+</script>

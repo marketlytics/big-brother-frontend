@@ -9,6 +9,15 @@ angular.module('bigBrotherApp')
       getList: {
         method: 'GET',
         isArray: true
+      },
+      addDevice: {
+        method: 'POST'
+      },
+      deleteDevice: {
+        method: 'DELETE'
+      },
+      editDevice: {
+        method: 'PUT'
       }
 	  });
   });

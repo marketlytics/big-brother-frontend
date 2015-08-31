@@ -19,16 +19,16 @@ exports.index = function(req, res) {
 exports.show = function(req, res, next) {
 	Device.findById(req.params.id, function(err, device) {
 		if (err) return next(err);
-	    if (!user) return res.status(401).send('Unauthorized');
-	    res.json(device);
+		if (!user) return res.status(401).send('Unauthorized');
+		res.json(device);
 	});
 };
 
-exports.create = function(req, res) {
+exports.create = function(req, res, next) {
 	var device = new Device(req.body);
-	Device.save(device, function(err, device) {
+	device.save(function(err, device) {
 		if (err) return validationError(res, err);
-    	res.status(200).send('OK');
+		res.status(200).send(device);
 	});
 };
 
@@ -40,8 +40,15 @@ exports.destroy = function(req, res) {
 };
 
 exports.edit = function(req, res) {
-	Device.findOneAndUpdate(req.params.id, req.body, {upsert: true}, function(err, device) {
+	Device.findOne({_id: req.params.id}, function(err, device) {
 		if (err) return validationError(res, err);
-		res.status(205);
+		if (!device) return res.status(401).send('Unauthorized');
+		for(var key in req.body) {
+		  device[key] = req.body[key];
+		}
+		device.save(function(err, device) {
+		  if(err) return res.status(500).send(err);
+		  res.status(205).send('Reset Content');
+		});
 	});
 };

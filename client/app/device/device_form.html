@@ -1,0 +1,26 @@
+<script type="text/ng-template" id="deviceForm.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><span ng-hide="device.name">Add</span><span ng-show="device.name">Edit</span> Device</h3>
+    </div>
+    <div class="modal-body">
+    	<div class="alert alert-danger" ng-repeat="error in errors">{{error}}</div>
+        <form class="form">
+	        <div class="form-group">
+	        	<label class="control-label" for="name">Name</label>
+				<input type="text" class="form-control" ng-model="device.name" id="name" placeholder="Name">
+	        </div>
+	        <div class="form-group">
+	        	<label class="control-label" for="mac">Mac address</label>
+				<input type="text" class="form-control" ng-model="device.mac" id="mac" placeholder="Mac address">
+	        </div>
+	        <div class="form-group">
+	        	<label class="control-label" for="description">Description</label>
+				<textarea class="form-control" ng-model="device.description" id="description" placeholder="Description"></textarea>
+	        </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

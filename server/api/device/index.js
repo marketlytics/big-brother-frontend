@@ -13,5 +13,4 @@ router.post('/', auth.hasRole('admin'), controller.create);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.put('/:id', auth.hasRole('admin'), controller.edit);
 
-
 module.exports = router;

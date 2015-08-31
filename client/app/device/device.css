@@ -1,0 +1,20 @@
+.device-list .checkbox {
+	display:inline-block;
+	margin-top:0px;
+	margin-bottom:0px;
+	padding-left:0px;
+	margin-right:10px;
+}
+
+.device-list .row-action-primary {
+	float: none !important;
+}
+
+.device-list .row-action-primary,
+.device-list .row-content {
+	vertical-align: middle;
+}
+
+.device-list .action-secondary {
+	top: 8px !important;
+}

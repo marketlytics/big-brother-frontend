@@ -1,6 +1,7 @@
 'use strict';
 
 var Device = require('./device.model');
+var User = require('../user/user.model');
 var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
@@ -36,20 +37,23 @@ exports.destroy = function(req, res) {
 	Device.findById(req.params.id, function(err, device) {
 		if (err) return validationError(res, err);
 		if (!device) return res.status(401).send('Unauthorized');
-		device.update({disabled: true}, function(err) {
-			if(err) {
-				if(typeof err.message !== 'undefined') {
-					return validationError(res, {
-						errors: {
-							'device': {
-								message: err.message
-							}
+		User.findOne({'devices': {$elemMatch: { $and : [{deviceId: device._id}, {endedOn: {$exists: false}}]}}}, function(err, user) {
+			if(err) res.status(500).send(err);
+			else if (user) {
+				validationError(res, {
+					errors: {
+						'device': {
+							message: 'Device is already in use'
 						}
-					});
-				}
-				else res.status(500).send(err);
+					}
+				});
 			}
-			else res.status(204).send('No Content');
+			else {
+				device.update({disabled: true}, function(err) {
+					if(err) res.status(500).send(err);
+					else res.status(204).send('No Content');
+				});
+			}
 		});
 	});
 };

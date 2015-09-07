@@ -29,6 +29,33 @@ describe('Device Model', function() {
 		});
 	});
 
+	it('should fail when saving if name is not present', function(done) {
+		var deviceDup = new Device(device1);
+		deviceDup.name = '';
+		deviceDup.save(function(err, device) {
+			should.exist(err);
+			done();
+		});
+	});
+
+	it('should fail when saving if mac is not present', function(done) {
+		var deviceDup = new Device(device1);
+		deviceDup.mac = '';
+		deviceDup.save(function(err) {
+			should.exist(err);
+			done();
+		});
+	});
+
+	it('should fail when saving if mac is not valid', function(done) {
+		var deviceDup = new Device(device1);
+		deviceDup.mac = '01:a1:asdf:12321';
+		deviceDup.save(function(err) {
+			should.exist(err);
+			done();
+		});
+	});
+
 	it('should fail when saving with a duplicate device - (same mac)', function(done) {
 		device1.save(function(err, device1) {
 			var deviceDup = new Device(device2);

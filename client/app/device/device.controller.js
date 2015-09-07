@@ -110,33 +110,33 @@ angular.module('bigBrotherApp')
 
   	$scope.ok = function() {
   		if(device === null) {
-				Device.addDevice({}, 
-				$scope.device,
-				function(data) {
-					$modalInstance.close('');
-				},
-				function(err) {
-					handleErrors(err);
-				});
-			} else {
-				var newDevice = angular.copy(device);
-				delete newDevice._id;
-				delete newDevice.__v;
-				newDevice.name = $scope.device.name;
-				newDevice.mac = $scope.device.mac;
-				newDevice.description = $scope.device.description;
-				Device.editDevice({
-					id: device._id
-				}, newDevice, 
-				function(data) {
-					$modalInstance.close('');
-				}, function(err) {
-					handleErrors(err);
-				});
-			}
-		};
+			Device.addDevice({}, 
+			$scope.device,
+			function(data) {
+				$modalInstance.close('');
+			},
+			function(err) {
+				handleErrors(err);
+			});
+		} else {
+			var newDevice = angular.copy(device);
+			delete newDevice._id;
+			delete newDevice.__v;
+			newDevice.name = $scope.device.name;
+			newDevice.mac = $scope.device.mac;
+			newDevice.description = $scope.device.description;
+			Device.editDevice({
+				id: device._id
+			}, newDevice, 
+			function(data) {
+				$modalInstance.close('');
+			}, function(err) {
+				handleErrors(err);
+			});
+		}
+	};
 
-  	$scope.cancel = function() {
-  		$modalInstance.dismiss('cancel');
-  	}
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	}
   });

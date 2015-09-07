@@ -15,6 +15,7 @@ var user2 = new User({
 });
 
 var device = new Device({
+  name: 'mac-01',
   mac: '01:01:01:01:01:01',
   createdOn: new Date()
 });

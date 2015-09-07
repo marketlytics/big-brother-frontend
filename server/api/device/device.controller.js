@@ -33,9 +33,24 @@ exports.create = function(req, res, next) {
 };
 
 exports.destroy = function(req, res) {
-	Device.findByIdAndUpdate(req.params.id, { disabled: true }, function(err) {
-		if (err) return res.status(500).send(err);
-		res.status(204).send('No Content');
+	Device.findById(req.params.id, function(err, device) {
+		if (err) return validationError(res, err);
+		if (!device) return res.status(401).send('Unauthorized');
+		device.update({disabled: true}, function(err) {
+			if(err) {
+				if(typeof err.message !== 'undefined') {
+					return validationError(res, {
+						errors: {
+							'device': {
+								message: err.message
+							}
+						}
+					});
+				}
+				else res.status(500).send(err);
+			}
+			else res.status(204).send('No Content');
+		});
 	});
 };
 
@@ -44,11 +59,11 @@ exports.edit = function(req, res) {
 		if (err) return validationError(res, err);
 		if (!device) return res.status(401).send('Unauthorized');
 		for(var key in req.body) {
-		  device[key] = req.body[key];
+			device[key] = req.body[key];
 		}
 		device.save(function(err, device) {
-		  if(err) return res.status(500).send(err);
-		  res.status(205).send('Reset Content');
+			if(err) return res.status(500).send(err);
+			res.status(205).send('Reset Content');
 		});
 	});
 };

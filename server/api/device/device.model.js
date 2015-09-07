@@ -51,4 +51,12 @@ DeviceSchema
 		});
 	}, 'Device with specified mac already exists');
 
+DeviceSchema
+	.pre('update', function(next) {
+		mongoose.model('User').findOne({'devices': {$elemMatch: { $and : [{deviceId: this._id}, {endedOn: {$exists: false}}]}}}, function(err, device) {
+			if(device) next(new Error('Device is currently in use'));
+			else next();
+		});
+	});
+
 module.exports = mongoose.model('Device', DeviceSchema);

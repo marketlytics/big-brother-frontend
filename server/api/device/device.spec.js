@@ -1,51 +1,32 @@
 'use strict';
 
+var testdata = require('../../config/testdata');
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 var Device = require('./device.model');
 var User = require('../user/user.model');
 
-var admin = new User({
-	name: 'Admin',
-	email: 'admin@admin.com',
-	password: 'password',
-	role: 'admin'
-});
-
-var user = new User({
-	name: 'Test User',
-	email: 'test@user.com'
-});
-
-var device = new Device({
-	name: 'mac01',
-	mac: '01:01:01:01:01:01'
-});
-
 var token = '';
 
 describe('Device API', function() {
 	beforeEach(function (done) {
-		// remove all users
 		User.remove().exec().then(function() {
-			// add our admin user
-			var adminDup = new User(admin);
-			adminDup.save(function(err) {
-			if(err) done(err);
-			request(app)
-				.post('/auth/local')
-				.send({
-			  	"email": admin.email,
-			  	"password": admin.password
-				})
-				.end(function (err, res) {
-					if (err) throw err;
-					token = res.body.token;
-					Device.remove().exec().then(function() {
-						done();
+			new User(testdata.admin).save(function(err) {
+				if(err) done(err);
+				request(app)
+					.post('/auth/local')
+					.send({
+				  	"email": testdata.admin.email,
+				  	"password": testdata.admin.password
+					})
+					.end(function (err, res) {
+						if (err) throw err;
+						token = res.body.token;
+						Device.remove().exec().then(function() {
+							done();
+						});
 					});
-				});
 			});
 		});
 	});
@@ -79,7 +60,7 @@ describe('Device API', function() {
 	});
 
 	it('should edit a device', function(done) {
-		new Device(device).save(function(err, device) {
+		new Device(testdata.device[1]).save(function(err, device) {
 			if(err) throw err;
 			var deviceDup = JSON.parse(JSON.stringify(device));
 			delete deviceDup._id;
@@ -104,7 +85,7 @@ describe('Device API', function() {
 	});
 
 	it('should delete a device', function(done) {
-		new Device(device).save(function(err, device) {
+		new Device(testdata.device[1]).save(function(err, device) {
 			request(app)
 				.delete('/api/devices/' + device._id)
 				.set('Authorization', 'Bearer ' + token)
@@ -120,9 +101,9 @@ describe('Device API', function() {
 	});
 
 	it('should fail to delete if device is already in use', function(done) {
-		new Device(device).save(function(err, device) {
+		new Device(testdata.device[1]).save(function(err, device) {
 			if(err) throw err;
-			var userDup = new User(user);
+			var userDup = new User(testdata.user[1]);
 			userDup.devices = [{
 				deviceId: device._id
 			}];

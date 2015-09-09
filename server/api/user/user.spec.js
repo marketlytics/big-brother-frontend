@@ -1,21 +1,10 @@
 'use strict';
 
+var testdata = require('../../config/testdata');
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
 var User = require('./user.model');
-
-var admin = new User({
-	name: 'Admin',
-	email: 'admin@admin.com',
-	password: 'password',
-	role: 'admin'
-});
-
-var user = new User({
-	name: 'Test User',
-	email: 'test@user.com'
-});
 
 var token = '';
 
@@ -24,14 +13,14 @@ describe('User API', function() {
     // remove all users
     User.remove().exec().then(function() {
       // add our admin user
-      var adminDup = new User(admin);
+      var adminDup = new User(testdata.admin);
       adminDup.save(function(err) {
         if(err) done(err);
         request(app)
           .post('/auth/local')
           .send({
-              "email": admin.email,
-              "password": admin.password
+              "email": testdata.admin.email,
+              "password": testdata.admin.password
           })
           .end(function (err, res) {
             if (err) throw err;
@@ -86,7 +75,7 @@ describe('User API', function() {
   });
 
   it('should delete a user', function(done) {
-  	var userDup = new User(user);
+  	var userDup = new User(testdata.user[1]);
   	userDup.save(function(err, user) {
   		if(err) throw err;
   		request(app)
@@ -103,7 +92,7 @@ describe('User API', function() {
   });
 
   it('should edit a user', function(done) {
-  	var userDup = new User(user);
+  	var userDup = new User(testdata.user[1]);
   	userDup.save(function(err, user) {
   		var userDup = JSON.parse(JSON.stringify(user));
   		delete userDup._id;
@@ -139,7 +128,7 @@ describe('User API', function() {
   });
 
   it('should get a single user', function(done) {
-  	user.save(function(err, user) {
+  	new User(testdata.user[1]).save(function(err, user) {
   		if(err) throw err;
   		request(app)
   			.get('/api/users/' + user._id)

@@ -1,24 +1,9 @@
 'use strict';
 
+var testdata = require('../../config/testdata');
 var should = require('should');
 var User = require('./user.model');
 var Device = require('../device/device.model');
-
-var user = new User({
-  name: 'Fake User',
-  email: 'test@test.com'
-});
-
-var user2 = new User({
-  name: 'Fake User 2',
-  email: 'test2@test.com'
-});
-
-var device = new Device({
-  name: 'mac-01',
-  mac: '01:01:01:01:01:01',
-  createdOn: new Date()
-});
 
 describe('User Model', function() {
   
@@ -38,8 +23,8 @@ describe('User Model', function() {
   });
 
   it('should fail when saving a duplicate user', function(done) {
-    user.save(function() {
-      var userDup = new User(user);
+    testdata.user[1].save(function() {
+      var userDup = new User(testdata.user[1]);
       userDup.save(function(err) {
         should.exist(err);
         done();
@@ -48,7 +33,7 @@ describe('User Model', function() {
   });
 
   it('should fail when saving with device id which does not exist in device table', function(done) {
-    var userDup = new User(user);
+    var userDup = new User(testdata.user[1]);
     userDup.devices = [{
       deviceId: '55d48443c5e6a9e3546cafbe'
     }];
@@ -59,13 +44,13 @@ describe('User Model', function() {
   });
 
   it('should fail when saving if active device is already in use', function(done) {
-    device.save(function(err, device) {
-      var userDup1 = new User(user);
+    new Device(testdata.device[1]).save(function(err, device) {
+      var userDup1 = new User(testdata.user[1]);
       userDup1.devices = [{
         deviceId: device._id
       }];
       userDup1.save(function(err, user) {
-        var userDup2 = new User(user2);
+        var userDup2 = new User(testdata.user[2]);
         userDup2.devices = userDup1.devices;
         userDup2.save(function(err, user) {
           should.exist(err);
@@ -76,20 +61,21 @@ describe('User Model', function() {
   });
 
   it('should save if active device is not already in use', function(done) {
-    device.save(function(err, device) {
-      var userDup1 = new User(user);
+    new Device(testdata.device[1]).save(function(err, device) {
+      var userDup1 = new User(testdata.user[1]);
       userDup1.devices = [{
         deviceId: device._id,
         startedOn: new Date(new Date().setDate(new Date().getDate() - 1)),
         endedOn: new Date()
       }];
       userDup1.save(function(err, user) {
-        var userDup2 = new User(user2);
+        var userDup2 = new User(testdata.user[2]);
         userDup2.devices = [{
           deviceId: device._id
         }];
         userDup2.save(function(err, user) {
-          should.exist(err);
+          should.not.exist(err);
+          user.should.have.property('_id');
           done();
         });
       });
@@ -97,9 +83,8 @@ describe('User Model', function() {
   });
 
   it('should save with valid device id', function(done) {
-    var deviceDup = new Device(device); //fix - "VersionError: No matching document found".
-    deviceDup.save(function(err, device) {
-      var userDup = new User(user);
+    new Device(testdata.device[1]).save(function(err, device) {
+      var userDup = new User(testdata.user[1]);
       userDup.devices = [{
         deviceId: device._id
       }];
@@ -111,8 +96,8 @@ describe('User Model', function() {
   });
 
   it('should fail when saving with startedOn property greater than endedOn property', function(done) {
-    device.save(function(err, device) {
-      var userDup = new User(user);
+    new Device(testdata.device[1]).save(function(err, device) {
+      var userDup = new User(testdata.user[1]);
       userDup.devices = [{
         device: device._id,
         startedOn: new Date(new Date().setDate(new Date().getDate() + 1)),

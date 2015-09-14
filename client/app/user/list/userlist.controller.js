@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bigBrotherApp')
-  .controller('UserCtrl', function ($scope, Auth, User, Device, $http, $timeout, $modal) {
+  .controller('UserListCtrl', function ($scope, Auth, User, Device, $http, $timeout, $modal) {
   	  $scope.users = [];
   	  var deviceList = Device.getList();
 
@@ -23,7 +23,7 @@ angular.module('bigBrotherApp')
 								return device._id === userDevice.deviceId;
 							})[0];
 							if(device) {
-								user.device = device.mac;
+								user.device = device;
 							}
 						});
 					}

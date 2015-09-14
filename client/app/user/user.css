@@ -1,28 +1,41 @@
-
 .user-list .user {
 	display: inline-block;
-	margin-left: 30px;
-	
-	width:250px;
-	
+	margin-left: 2%;
+	width: 49%;
 	vertical-align:top;
+	margin-bottom: 20px;
 }
 
-.user-list .user:nth-child(4n+1) {
+.user-list .user:nth-child(2n+1) {
 	margin-left: 0px;
 }
 
-.user-list .user .img-wrapper {
-	position:relative;
+.user-list .user .wrapper {
+	display:table;
+	height:190px;
+	width:100%;
 }
 
-.user-list .user .img-wrapper .user-name {
-	padding:5px;
-	padding-left: 12px;
-	color: #fff;
-	position:absolute;
+.user-list .user .wrapper .user-info,
+.user-list .user .wrapper .img-wrapper {
+	display:table-cell;
+	vertical-align: top;
+}
+
+.user-list .user .wrapper .img-wrapper {
+	position:relative;
+	width:35%;
+	height:100%;
+}
+
+.user-list .user .wrapper .img-wrapper img {
 	width:100%;
-	bottom:0px;
+	height:100%;
+}
+
+.user-list .user .wrapper .user-info {
+	width: 65%;
+	height:100%;
 }
 
 .user-list .user .img-wrapper .img-overlay {
@@ -34,22 +47,6 @@
 	width:100%;
 	background-color: #000;
 	opacity: 0.3;
-}
-
-.user-list .user .img-wrapper .user-name .checkbox, 
-.user-list .user .img-wrapper .user-name p {
-	display:inline-block;
-	vertical-align: middle
-}
-
-.user-list .user .img-wrapper .user-name p {
-	margin-bottom:0px;
-	font-size:18px;
-	padding:5px;
-}
-
-.user-list .user .img-wrapper .user-name .checkbox {
-	padding-left:0px;
 }
 
 .user-list .user .img-wrapper .icon-wrapper {
@@ -64,19 +61,22 @@
 }
 
 .user-list .user .info-item {
-	padding: 10px;
+	padding: 7px;
 }
 
 .user-list .user .info-item i, 
-.user-list .user .info-item span {
+.user-list .user .info-item > span {
 	display:inline-block;
 	vertical-align: middle;
 }
 
-.user-list .user .info-item span {
-	width: 80%;
-	overflow:hidden;
-	text-overflow: ellipsis;
+.user-list .user .info-item .username {
+	font-size: 18px;
+	font-weight: normal;
+	width: 100%;
+	border-bottom:1px solid #ccc;
+	padding-bottom: 10px;
+	margin-left: 3px;
 }
 
 .action-wrapper {
@@ -91,4 +91,20 @@
 
 .modal-header {
 	padding-bottom: 24px !important;
+}
+
+.checkbox {
+	margin:0px;
+	padding:0px;
+	margin-left:2px;
+}
+
+.checkbox-material {
+	margin-right: 5px;
+}
+
+.gravatar-img {
+	width:100%;
+	height:100%;
+	background-position: center;
 }

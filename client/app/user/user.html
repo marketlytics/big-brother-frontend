@@ -8,30 +8,37 @@
 	</div>
 
 	<div class="user-list">
-		<div class="user shadow-z-5" ng-repeat="user in users">
-			<div class="img-wrapper">
-				<img gravatar-src="'{{user.email}}'" gravatar-size="250"/>
-				<div class="img-overlay"></div>
-				<div ng-if="isLoggedIn()" class="icon-wrapper">
-					<i class="mdi-image-edit" ng-click="openUserModal(user)"></i>
+		<div class="user shadow-z-2" ng-repeat="user in users">
+			<div class="wrapper">
+				<div class="img-wrapper">
+					<div class="gravatar-img" gravatar-src="'{{user.email}}'" gravatar-size="200"> </div>
+					<div class="img-overlay"></div>
+					<div ng-if="isLoggedIn()" class="icon-wrapper">
+						<i class="mdi-image-edit" ng-click="openUserModal(user)"></i>
+					</div>
 				</div>
-				<div class="user-name">
-					<div ng-if="isLoggedIn()" class="checkbox"><label><input type="checkbox" name="{{user._id}}" ng-model="selected.user" ng-change="onToggle(user)"/></label></div>
-					<p>{{user.name}}</p>
-				</div>
-			</div>
-			<div class="user-info">
-				<div class="info-item">
-					<i class="mdi-content-mail"></i>
-					<span>{{user.email}}</span>
-				</div>
-				<div class="info-item">
-					<i class="mdi-hardware-laptop-mac"></i>
-					<span ng-if="user.device">{{user.device}}</span><span ng-if="!user.device">N/A</span>
-				</div>
-				<div class="info-item">
-					<i class="mdi-notification-event-available"></i>
-					<span ng-if="user.leavesAllowed">{{user.leavesAllowed}}</span><span ng-if="!user.leavesAllowed">N/A</span>
+				<div class="user-info">
+					<div class="info-item">
+						<div ng-if="isLoggedIn()" class="checkbox username"><label><input type="checkbox" name="{{user.id}}" ng-model="selected.user" ng-change="onToggle(user)"/>{{user.name}}</label></div>
+						<span ng-if="!isLoggedIn()" class="username">{{user.name}}</span>
+					</div>
+					<div class="list-group-separator"></div>
+					<div class="info-item">
+						<i class="mdi-content-mail"></i>
+						<span>{{user.email}}</span>
+					</div>
+					<div class="info-item">
+						<i class="mdi-hardware-laptop-mac"></i>
+						<span ng-if="user.device">{{user.device.name}} ({{user.device.mac}})</span><span ng-if="!user.device">N/A</span>
+					</div>
+					<div class="info-item">
+						<i class="mdi-action-history"></i>
+						<span><a href="">Device History</a></span>
+					</div>
+					<div class="info-item">
+						<i class="mdi-notification-event-available"></i>
+						<span ng-if="user.leavesAllowed">{{user.leavesAllowed}}</span><span ng-if="!user.leavesAllowed">N/A</span>
+					</div>
 				</div>
 			</div>
 		</div>

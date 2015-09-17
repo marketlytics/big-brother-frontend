@@ -10,7 +10,11 @@ angular.module('bigBrotherApp')
 				$timeout(function() {
 					$scope.originalDevices = devices;
 					$scope.devices = angular.copy(devices).filter(function(device) {
-							return !device.disabled;
+						return !device.disabled;
+					});
+
+					$scope.devices.sort(function(a, b) {
+						return a.name.localeCompare(b.name);
 					});
 
 					var columnCount = 3;
@@ -122,9 +126,7 @@ angular.module('bigBrotherApp')
 			function(data) {
 				$modalInstance.close('');
 			}, function(err) {
-				$timeout(function() {
-					$scope.errors = Utils.getErrMessages(err);
-				}, 0);
+				$scope.errors = Utils.getErrMessages(err);
 			});
 		}
 	};

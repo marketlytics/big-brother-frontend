@@ -8,7 +8,7 @@
 	</div>
 
 	<div class="user-list">
-		<div class="user shadow-z-2" ng-repeat="user in users">
+		<div class="user shadow-z-2" ng-repeat="user in users | orderBy: 'name'">
 			<div class="wrapper">
 				<div class="img-wrapper">
 					<div class="gravatar-img" gravatar-src="'{{user.email}}'" gravatar-size="200"> </div>

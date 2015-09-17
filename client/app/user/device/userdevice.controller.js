@@ -27,6 +27,9 @@ angular.module('bigBrotherApp')
             userDevice.endedOn = moment(userDevice.endedOn).format('ll')
           }
         });
+        $scope.userDevices.sort(function(a, b) {
+          return moment(a.startedOn).toDate() - moment(b.startedOn).toDate();
+        });
     	});
     };
 
@@ -74,9 +77,7 @@ angular.module('bigBrotherApp')
       User.editUser({id: $scope.user._id}, userCpy, function(data) {
         getUserHistory();
       }, function(err) {
-        $timeout(function() {
-          $scope.errors = Utils.getErrMessages(err);
-        }, 0);
+        $scope.errors = Utils.getErrMessages(err);
       });
     };
   });
@@ -127,9 +128,7 @@ angular.module('bigBrotherApp')
         User.editUser({id: user._id}, userCpy, function(data) {
           $modalInstance.close('');
         }, function(err) {
-          $timeout(function() {
-            $scope.errors = Utils.getErrMessages(err);
-          }, 0);
+          $scope.errors = Utils.getErrMessages(err);
         });
 
       }

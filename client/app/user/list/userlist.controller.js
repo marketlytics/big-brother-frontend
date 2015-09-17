@@ -177,9 +177,7 @@ angular.module('bigBrotherApp')
 			function(data) {
 				$modalInstance.close('');
 			}, function(err) {
-				$timeout(function() {
-					$scope.errors = Utils.getErrMessages(err);
-				}, 0);
+				$scope.errors = Utils.getErrMessages(err);
 			});
 		}
   	};

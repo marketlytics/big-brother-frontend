@@ -22,6 +22,9 @@ angular.module('bigBrotherApp')
       },
       editUser: {
         method: 'PUT'
+      },
+      getUser: {
+        method: 'GET'
       }
 	  });
   });

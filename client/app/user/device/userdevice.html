@@ -1,10 +1,33 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div>
-	<!--<div class="action-wrapper" ng-if="isLoggedIn()">
-		<button class="btn btn-fab btn-raised btn-primary" ng-click="openUserModal(null)"><i class="mdi-content-add"></i><div class="ripple-wrapper"></div></button>
+<div class="container">
+	<div class="action-wrapper" ng-if="isLoggedIn()">
+		<button class="btn btn-fab btn-raised btn-primary" ng-click="openUserDeviceModal(null)"><i class="mdi-content-add"></i><div class="ripple-wrapper"></div></button>
 		<button class="btn btn-fab btn-raised btn-primary" ng-click="onDelete()"><i class="mdi-action-delete"></i><div class="ripple-wrapper"></div></button>
-	</div>-->
-	im here!!
+	</div>
 
+	<div class="heading">
+		<img gravatar-src="user.email" gravatar-type="img"/>
+		<h3>Abdul Qadir's Device History</h3>
+	</div>
+
+	<table class="table table-hover">
+		<thead>
+		</thead>
+		<tbody>
+			<tr ng-repeat="userDevice in userDevices">
+				<td><div ng-if="isLoggedIn()" class="checkbox"><label><input type="checkbox" name="{{userDevice._id}}" ng-model="selected.device" ng-change="onToggle(userDevice)"/></label></div></td>
+				<td>{{userDevice.deviceInfo.name}}</td>
+				<td>{{userDevice.startedOn}}</td>
+				<td><span ng-if="userDevice.endedOn">{{userDevice.endedOn}}</span><span ng-if="!userDevice.endedOn">Active</span></td>
+				<td><i class="mdi-image-edit" ng-click="openUserDeviceModal(userDevice)"></i></td>
+			</tr>
+		</tbody>
+	</table>
 </div>
+
+<div ng-include="'app/user/device/userdevice_form.html'"></div>
+
+<script>
+	$.material.init();
+</script>

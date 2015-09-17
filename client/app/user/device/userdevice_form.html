@@ -1,0 +1,26 @@
+<script type="text/ng-template" id="userDeviceForm.html">
+    <div class="modal-header">
+        <h3 class="modal-title"><span ng-hide="userDevice">Add</span><span ng-show="userDevice">Edit</span> User Device</h3>
+    </div>
+    <div class="modal-body">
+    	<div class="alert alert-danger" ng-repeat="error in errors">{{error}}</div>
+        <form class="form">
+			<div class="form-group">
+				<label class="control-label" for="device">Device</label>
+				<select class="form-control" id="device" ng-model="userDevice.deviceId" ng-options="device._id as device.name for device in devices"></select>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="startedOn">Started On</label>
+				<input type="date" class="form-control" ng-model="userDevice.startedOn" id="startedOn">
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="startedOn">Ended On</label>
+				<input type="date" class="form-control" ng-model="userDevice.endedOn" id="endedOn">
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+		<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+	</div>
+</script>

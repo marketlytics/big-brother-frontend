@@ -1,5 +1,5 @@
 angular.module('bigBrotherApp')
-  .controller('UserDeviceCtrl', function ($scope, $routeParams, Auth, User, Device, $timeout, $modal) {
+  .controller('UserDeviceCtrl', function ($scope, $routeParams, Auth, User, Utils, Device, $timeout, $modal) {
 
     $scope.errors = [];
 
@@ -31,15 +31,6 @@ angular.module('bigBrotherApp')
     };
 
     getUserHistory();
-
-    $scope.handleErrors = function(err) {
-      $scope.errors = [];
-        if(typeof err.data !== 'undefined' && err.data.errors !== 'undefined') {
-        for(var path in err.data.errors) {
-          $scope.errors.push(err.data.errors[path].message);
-        }
-      }
-    };
 
     $scope.openUserDeviceModal = function(userDevice) {
       var modalInstance = $modal.open({
@@ -83,13 +74,15 @@ angular.module('bigBrotherApp')
       User.editUser({id: $scope.user._id}, userCpy, function(data) {
         getUserHistory();
       }, function(err) {
-        $scope.handleErrors(err);
+        $timeout(function() {
+          $scope.errors = Utils.getErrMessages(err);
+        }, 0);
       });
     };
   });
 
 angular.module('bigBrotherApp')
-  .controller('UserDeviceModalInstanceCtrl', function ($scope, $modalInstance, User, user, devices, userDevice) {
+  .controller('UserDeviceModalInstanceCtrl', function ($scope, $modalInstance, User, user, $timeout, Utils, devices, userDevice) {
 
     $scope.errors = [];
     $scope.devices = devices;
@@ -100,15 +93,6 @@ angular.module('bigBrotherApp')
         $scope.userDevice.endedOn = new Date($scope.userDevice.endedOn);
       }
     }
-
-    $scope.handleErrors = function(err) {
-      $scope.errors = [];
-        if(typeof err.data !== 'undefined' && err.data.errors !== 'undefined') {
-        for(var path in err.data.errors) {
-          $scope.errors.push(err.data.errors[path].message);
-        }
-      }
-    };
 
     $scope.ok = function() {
       if(typeof $scope.userDevice.deviceId !== 'undefined' && typeof $scope.userDevice.startedOn !== 'undefined')
@@ -143,7 +127,9 @@ angular.module('bigBrotherApp')
         User.editUser({id: user._id}, userCpy, function(data) {
           $modalInstance.close('');
         }, function(err) {
-          $scope.handleErrors(err);
+          $timeout(function() {
+            $scope.errors = Utils.getErrMessages(err);
+          }, 0);
         });
 
       }

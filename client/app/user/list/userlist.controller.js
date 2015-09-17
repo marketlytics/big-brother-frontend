@@ -97,7 +97,7 @@ angular.module('bigBrotherApp')
   });
 
 angular.module('bigBrotherApp')
-  .controller('UserModalInstanceCtrl', function ($scope, $timeout, User, $modalInstance, devices, user) {
+  .controller('UserModalInstanceCtrl', function ($scope, $timeout, User, Utils, $modalInstance, devices, user) {
   	
   	$scope.devices = devices;
   	$scope.user = user;
@@ -119,15 +119,6 @@ angular.module('bigBrotherApp')
 		}
 		$scope.leavesAllowed = user.leavesAllowed;
   	}
-
-  	$scope.handleErrors = function(err) {
-  		$scope.errors = [];
-  		if(typeof err.data !== 'undefined' && err.data.errors !== 'undefined') {
-			for(var path in err.data.errors) {
-				$scope.errors.push(err.data.errors[path].message);
-			}
-		}
-  	};
 
   	$scope.ok = function() {
   		if(user === null) {
@@ -186,7 +177,9 @@ angular.module('bigBrotherApp')
 			function(data) {
 				$modalInstance.close('');
 			}, function(err) {
-				$scope.handleErrors(err);
+				$timeout(function() {
+					$scope.errors = Utils.getErrMessages(err);
+				}, 0);
 			});
 		}
   	};

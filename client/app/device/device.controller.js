@@ -90,7 +90,7 @@ angular.module('bigBrotherApp')
 
 
 angular.module('bigBrotherApp')
-  .controller('DeviceModalInstanceCtrl', function ($scope, $timeout, $modalInstance, Device, devices, device) {
+  .controller('DeviceModalInstanceCtrl', function ($scope, $timeout, Utils, $modalInstance, Device, devices, device) {
 		
 	$scope.errors = [];
 	$scope.device = {
@@ -98,15 +98,6 @@ angular.module('bigBrotherApp')
 		mac: device !== null ? device.mac : '',
 		description: device !== null ? device.description : ''
 	};
-
-	var handleErrors = function(err) {
-  		$scope.errors = [];
-  		if(typeof err.data !== 'undefined' && err.data.errors !== 'undefined') {
-			for(var path in err.data.errors) {
-				$scope.errors.push(err.data.errors[path].message);
-			}
-		}
-  	};
 
   	$scope.ok = function() {
   		if(device === null) {
@@ -131,7 +122,9 @@ angular.module('bigBrotherApp')
 			function(data) {
 				$modalInstance.close('');
 			}, function(err) {
-				handleErrors(err);
+				$timeout(function() {
+					$scope.errors = Utils.getErrMessages(err);
+				}, 0);
 			});
 		}
 	};

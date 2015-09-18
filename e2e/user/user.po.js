@@ -55,10 +55,12 @@ var UserPage = function () {
 	this.assertUserFull = function(user, mac) {
 		this.assertUser(user);
 		var container = element(by.cssContainingText('.user', user.email));
-		var macAddr = typeof mac !== 'undefined' ? mac : 'N/A';
-		expect(container.element(by.css('.info-item:nth-child(2) span')).getText()).toBe(macAddr);
-		var leaves = typeof user.leavesAllowed !== 'undefined' ? user.leavesAllowed : 'N/A';
-		expect(container.element(by.css('.info-item:nth-child(3) span')).getText()).toBe(leaves.toString());
+		container.all(by.css('.info-item')).then(function(infoItem) {
+			var macAddr = typeof mac !== 'undefined' ? mac : 'N/A';
+			expect(infoItem[2].getText()).toContain(macAddr);
+			var leaves = typeof user.leavesAllowed !== 'undefined' ? user.leavesAllowed : 'N/A';
+			expect(infoItem[4].getText()).toBe(leaves.toString());
+		});
 	};
 
 	this.deleteUser = function(user) {

@@ -132,7 +132,7 @@ angular.module('bigBrotherApp')
 			}, function(data) {
 				$modalInstance.close('');
 			}, function(err) {
-				$scope.handleErrors(err);
+				$scope.errors = Utils.getErrMessages(err);
 			});
 		} else {
 			var userCpy = angular.copy(user);

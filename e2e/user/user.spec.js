@@ -13,11 +13,11 @@ describe('User View', function() {
     browser.waitForAngular();
   }
 
-  describe('Role - User', function() {
+  describe('Role - User: ', function() {
     beforeEach(function(done) {
       utils.resetDatabase(function() {
         page.get();
-        done();  
+        done();
       });
     });
 
@@ -26,13 +26,17 @@ describe('User View', function() {
     });
   });
 
-  describe('Role - Admin', function() {
+  describe('Role - Admin: ', function() {
     beforeEach(function(done) {
       utils.resetDatabase(function() {
         login();
         page.get();
         done();
       });
+    });
+
+    afterEach(function() {
+      element(by.cssContainingText('#navbar-main .navbar-right a', 'Logout')).click();
     });
 
     it('should show action buttons if admin is logged in', function() {
@@ -74,6 +78,7 @@ describe('User View', function() {
       delete userCpy.name;
       page.addUser(userCpy);
       page.assertError();
+      page.closeModal();
     });
 
     it('should show error if email is not entered', function() {
@@ -81,12 +86,14 @@ describe('User View', function() {
       delete userCpy.email;
       page.addUser(userCpy);
       page.assertError();
+      page.closeModal();
     });
 
     it('should show error if device is already selected', function() {
       var userCpy = JSON.parse(JSON.stringify(testdata.users.userToAdd));
       page.addUser(userCpy, testdata.devices[0].mac);
       page.assertError();
+      page.closeModal();
     });
 
   });

@@ -76,6 +76,14 @@ var UserPage = function () {
 	this.assertError = function() {
 		expect(element(by.css('.alert.alert-danger')).isPresent()).toBeTruthy();
 	};
+
+	this.closeModal = function() {
+		element(by.css('.modal-dialog')).isPresent().then(function(isPresent) {
+			if(isPresent) {
+				element(by.css('.btn.btn-warning')).click();
+			}
+		});
+	};
 };
 
 module.exports = new UserPage();

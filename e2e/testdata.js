@@ -24,7 +24,12 @@ var testdata = {
 	devices: {
 		0: device1,
 		1: device2,
-		2: device3
+		2: device3,
+		deviceToAdd: new Device({
+			name: 'mac04',
+			mac: '01:01:01:01:01:01',
+			createdOn: new Date()
+		})
 	},
 
 	users: {

@@ -1,8 +1,15 @@
 'use strict';
 
 angular.module('bigBrotherApp')
-	.controller('DeviceCtrl', function ($scope, Auth, Device, $timeout, $modal) {
+	.controller('DeviceCtrl', function ($scope, Auth, Device, Utils, $timeout, $modal) {
 		
+		$scope.errors = [];
+
+		$scope.dismissError = function(error) {
+			var index = $scope.errors.indexOf(error);
+			$scope.errors.splice(index, 1);
+		};
+
 		var getDeviceList = function() {
 			var deviceList = Device.getList();
 
@@ -82,7 +89,7 @@ angular.module('bigBrotherApp')
 					}
 				}, function(err) {
 					//handle error
-					console.log(err);
+					$scope.errors = Utils.getErrMessages(err);
 					if(--length === 0) {
 						deviceList = getDeviceList();
 					}
@@ -111,7 +118,7 @@ angular.module('bigBrotherApp')
 				$modalInstance.close('');
 			},
 			function(err) {
-				handleErrors(err);
+				$scope.errors = Utils.getErrMessages(err);
 			});
 		} else {
 			var newDevice = angular.copy(device);

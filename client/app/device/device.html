@@ -1,7 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-
+	<alert ng-repeat="error in errors" type="danger" close="dismissError(error)">{{error}}</alert>
 	<div class="action-wrapper" ng-if="isLoggedIn()">
 		<button class="btn btn-fab btn-raised btn-primary" ng-click="openDeviceModal(null)"><i class="mdi-content-add"></i><div class="ripple-wrapper"></div></button>
 		<button class="btn btn-fab btn-raised btn-primary" ng-click="onDelete()"><i class="mdi-action-delete"></i><div class="ripple-wrapper"></div></button>

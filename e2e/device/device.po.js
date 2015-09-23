@@ -1,7 +1,11 @@
 'use strict';
 
 var DevicePage = function() {
+
 	var fillForm = function(device) {
+		browser.wait(function() {
+			return element(by.css('.modal-footer .btn-primary')).isPresent();
+		}, 1000);
 		if(typeof device.name !== 'undefined') {
 			element(by.model('device.name')).clear().sendKeys(device.name);
 		}

@@ -17,12 +17,12 @@
 					<thead>
 					</thead>
 					<tbody>
-						<tr ng-repeat="userDevice in userDevices">
-							<td><div ng-if="isLoggedIn()" class="checkbox"><label><input type="checkbox" name="{{userDevice._id}}" ng-model="selected.device" ng-change="onToggle(userDevice)"/></label></div></td>
+						<tr ng-repeat="userDevice in userDevices" data-id="{{userDevice._id}}">
+							<td ng-if="isLoggedIn()"><div class="checkbox"><label><input type="checkbox" name="{{userDevice._id}}" ng-model="selected.device" ng-change="onToggle(userDevice)"/></label></div></td>
 							<td>{{userDevice.deviceInfo.name}}</td>
 							<td>{{userDevice.startedOn}}</td>
 							<td><span ng-if="userDevice.endedOn">{{userDevice.endedOn}}</span><span ng-if="!userDevice.endedOn">Active</span></td>
-							<td><i class="mdi-image-edit" ng-click="openUserDeviceModal(userDevice)"></i></td>
+							<td ng-if="isLoggedIn()"><i class="mdi-image-edit" ng-click="openUserDeviceModal(userDevice)"></i></td>
 						</tr>
 					</tbody>
 				</table>

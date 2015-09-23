@@ -2,6 +2,10 @@
 
 var UserPage = function () {
 	var fillForm = function(user, mac) {
+		browser.wait(function() {
+			return element(by.css('.modal-footer .btn-primary')).isPresent();
+		}, 1000);
+		
 		if(typeof user.name !== 'undefined') {
 			element(by.model('name')).clear().sendKeys(user.name);
 		}

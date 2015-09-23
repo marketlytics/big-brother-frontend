@@ -101,7 +101,7 @@ UserSchema
   .validate(function(devices) {
     var isValid = true;
     devices.forEach(function(device) {
-      if(typeof device.endedOn !== 'undefined' && typeof device.startedOn !== 'undefined' && device.endedOn.getTime() < device.startedOn.getTime())
+      if(typeof device.endedOn !== 'undefined' && typeof device.startedOn !== 'undefined' && device.endedOn < device.startedOn)
         isValid = false;
     });
     return isValid;
@@ -151,6 +151,25 @@ UserSchema
       respond(true);
     }
   }, 'Device already in use');
+
+UserSchema
+  .path('devices')
+  .validate(function(devices) {
+    var filteredDevices = devices.filter(function(userDevice) {
+      return typeof userDevice.startedOn !== 'undefined' && typeof userDevice.endedOn !== 'undefined';
+    });
+    filteredDevices.sort(function(a, b) {
+      return a.startedOn.setHours(0,0,0,0) - b.startedOn.setHours(0,0,0,0);
+    });
+    var res = true;
+    for(var i = 0; i < filteredDevices.length - 1; i++)
+    {
+      if(filteredDevices[i+1].startedOn.setHours(0,0,0,0) < filteredDevices[i].endedOn.setHours(0,0,0,0)) {
+        return false;
+      }
+    }
+    return true;
+  }, 'Make sure ranges are not overlapped');
 
 var validatePresenceOf = function(value) {
   return value && value.length;

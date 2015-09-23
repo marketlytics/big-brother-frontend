@@ -43,6 +43,14 @@ var testdata = {
 			name: 'Mashhood',
 			email: 'mashhoodr@gmail.com',
 			devices: [{
+				deviceId: device3._id,
+				startedOn: new Date().setDate(new Date().getDate() - 10),
+				endedOn: new Date().setDate(new Date().getDate() - 5)
+			}, {
+				deviceId: device2._id,
+				startedOn: new Date().setDate(new Date().getDate() - 5),
+				endedOn: new Date()
+			},{
 				deviceId: device1._id
 			}]
 		}),

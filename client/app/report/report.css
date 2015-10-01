@@ -1,0 +1,69 @@
+span[class*="glyphicon-indicator"] {
+    overflow: hidden;
+}
+.glyphicon-indicator-present:before {
+    content:"\25cf";
+    font-size: 1.5em;
+    color: green;
+}
+.glyphicon-indicator-absent:before {
+    content:"\25cf";
+    font-size: 1.5em;
+    color: red;
+}
+
+.sticky-wrap {
+	overflow-x: auto;
+	overflow-y: hidden;
+	position: relative;
+	margin: 3em 0;
+	width: 100%;
+}
+.sticky-wrap .sticky-thead,
+.sticky-wrap .sticky-col,
+.sticky-wrap .sticky-intersect {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	transition: all .125s ease-in-out;
+	z-index: 50;
+	width: auto; /* Prevent table from stretching to full size */
+}
+	.sticky-wrap .sticky-thead {
+		box-shadow: 0 0.25em 0.1em -0.1em rgba(0,0,0,.125);
+		z-index: 100;
+		width: 100%; /* Force stretch */
+	}
+	.sticky-wrap .sticky-intersect {
+		opacity: 1;
+		z-index: 150;
+
+	}
+		.sticky-wrap .sticky-intersect th {
+			background-color: #fff;
+			color: #eee;
+			
+		}
+.sticky-wrap td,
+.sticky-wrap th {
+	box-sizing: border-box;
+	padding: 8px;
+}
+
+td, thead th:not(.compressed) {
+	min-width: 120px;
+}
+
+.sticky-wrap .sticky-intersect thead th {
+	min-width: auto !important;
+}
+
+.sticky-wrap .sticky-thead,
+.sticky-wrap .sticky-col {
+	background-color: #fff;
+}
+
+.sticky-wrap .sticky-thead {
+	z-index: 49;
+}

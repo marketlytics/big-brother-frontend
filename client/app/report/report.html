@@ -8,13 +8,30 @@
         <label class="btn btn-primary" ng-model="dataType" btn-radio="'attendance'">Attendance</label>
         <label class="btn btn-primary" ng-model="dataType" btn-radio="'leaves'">Leaves</label>
     </div>
-    <div class="btn-group pull-right">
-        <label class="btn btn-primary" ng-model="viewType" btn-radio="'calendar'">Calendar</label>
-        <label class="btn btn-primary" ng-model="viewType" btn-radio="'table'">Table</label>
-    </div>
+    
+    <section ng-repeat="(month, dates) in data">
+        <h1>{{month}}</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="compressed"></th>
+                    <th class="compressed"></th>
+                    <th ng-repeat="user in users"><img gravatar-src="'{{user.email}}'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"/>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(date, users) in dates">
+                    <th class="compressed">{{date}}</th>
+                    <th class="compressed">Mon</th>
+                    <td ng-repeat="record in users">
+                        <span>{{record.checkIn}}</span> - <span>{{record.checkOut}}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 
-    <h1>Jul - 2015</h1>
-    <table class="table">
+    <!-- <table class="table">
     	<thead>
     		<tr>
     			<th class="compressed"></th>
@@ -419,7 +436,7 @@
     			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
     		</tr>
     	</tbody>
-    </table>
+    </table> -->
 </div>
 
 <script>

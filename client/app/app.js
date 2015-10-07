@@ -6,7 +6,8 @@ angular.module('bigBrotherApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap',
-  'ui.gravatar'
+  'ui.gravatar',
+  'ui.select'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

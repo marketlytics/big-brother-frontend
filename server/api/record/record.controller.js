@@ -86,9 +86,9 @@ var getIncludes = function(queryObj, records, callback) {
 				if(tokens.indexOf('users') >= 0) {
 					var user = usersCpy.filter(function(user) {
 						return user.devices.filter(function(userDevice) {
-							var ret = userDevice.mac === record.mac && record.lastUpdated >= userDevice.startedOn.getTime();
+							var ret = userDevice.mac.toLowerCase() === record.mac.toLowerCase() && record.lastUpdated >= Math.round(userDevice.startedOn.getTime() / 1000);
 							if(typeof userDevice.endedOn !== 'undefined') {
-								ret = ret && record.lastUpdated <= userDevice.endedOn.getTime();
+								ret = ret && record.lastUpdated <= Math.round(userDevice.endedOn.getTime() / 1000);
 							}
 							return ret;
 						}).length;
@@ -101,7 +101,7 @@ var getIncludes = function(queryObj, records, callback) {
 
 				if(tokens.indexOf('devices') >= 0) {
 					var device = devicesCpy.filter(function(device) {
-						return device.mac === record.mac
+						return device.mac === record.mac.toLowerCase();
 					})[0];
 					if(typeof device !== 'undefined') {
 						ret.includes.devices[device._id] = device;

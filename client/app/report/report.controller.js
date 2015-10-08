@@ -97,19 +97,19 @@ angular.module('bigBrotherApp')
 					}
 				}
 			}
-
+			
 			var filters = {
 				include: 'users,devices',
 				filter: ''
 			};
 			if(typeof start !== 'undefined' && start !== null) {
-				filters.filter += 'start:' + new Date(start).setHours(0);
+				filters.filter += 'start:' + moment(start).hour(0).minutes(0).unix();
 			}
 			if(typeof end !== 'undefined' && end !== null) {
 				if(filters.filter.length > 0) {
 					filters.filter += ',';
 				}
-				filters.filter += 'end:' + new Date(end).setHours(23);
+				filters.filter += 'end:' + moment(end).hour(23).minutes(59).unix();
 			}
 
 			Record.getRecords(filters).$promise.then(function(data) {
@@ -118,7 +118,7 @@ angular.module('bigBrotherApp')
 					if(typeof record.user === 'undefined') return;
 
 					var localRecord = angular.copy(record);
-					localRecord.date = moment(localRecord.lastUpdated);
+					localRecord.date = moment(localRecord.lastUpdated * 1000);
 					var month = localRecord.date.format('MMM YYYY');
 					var date = localRecord.date.date();
 					$scope.data[month][date]['users'][record['user']].push(localRecord);
@@ -145,6 +145,6 @@ angular.module('bigBrotherApp')
 		});
       };
 
-      fetchRecords(moment($scope.filter.dp.start.dt).toDate(), moment($scope.filter.dp.end.dt).toDate());
+      fetchRecords($scope.filter.dp.start.dt, $scope.filter.dp.end.dt);
 
   });

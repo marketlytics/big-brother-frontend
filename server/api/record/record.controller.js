@@ -129,3 +129,41 @@ exports.index = function(req, res) {
 		});
 	});
 };
+
+exports.saveRecords = function(req, res) {
+	if(typeof req.body.data !== 'undefined') {
+		var messages = JSON.parse(req.body.data);
+		var records = [];
+		for(var i = 0; i < messages.length; i++)
+		{
+			var message = messages[i]
+			if(typeof message.type !== 'undefined' && message.type === 'node')
+			{
+				for(var j = 0; j < message.nodes.length; j++)
+				{
+					var node = message.nodes[j];
+					records.push({
+						mac: node.mac_addr,
+						lastUpdated: message.created,
+						status: (node.node_status === 0 ? 'DOWN' : 'UP')
+					});
+				}
+			}
+		}
+		if(records.length > 0)
+		{
+			Record.create(records, function(err) {
+				res.send(200);
+			});
+		}
+		else res.send(200);
+	}
+};
+
+exports.saveLogs = function(req, res) {
+	if(typeof req.file !== "undefined" && req.file.fieldname === 'log') {
+		var newPath = 'logs/' + req.file.originalname;
+		fs.createReadStream(req.file.path).pipe(fs.createWriteStream(newPath, {'flags': 'a'}));
+	}
+	return res.status(200).end();
+};

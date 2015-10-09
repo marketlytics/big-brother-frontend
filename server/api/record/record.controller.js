@@ -162,7 +162,13 @@ exports.saveRecords = function(req, res) {
 
 exports.saveLogs = function(req, res) {
 	if(typeof req.file !== "undefined" && req.file.fieldname === 'log') {
-		var newPath = 'logs/' + req.file.originalname;
+		var directory = 'logs/';
+		try {
+			fs.lstatSync(directory);
+		} catch(e) {
+			fs.mkdirSync(directory);
+		}
+		var newPath = directory + req.file.originalname;
 		fs.createReadStream(req.file.path).pipe(fs.createWriteStream(newPath, {'flags': 'a'}));
 	}
 	return res.status(200).end();

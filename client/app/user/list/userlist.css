@@ -1,76 +1,19 @@
-.user-list .user {
-	display: inline-block;
-	margin-left: 2%;
-	width: 49%;
-	vertical-align:top;
-	margin-bottom: 20px;
+.user .checkbox {
+	margin:0px;
+	padding:0px;
+	margin-left:2px;
 }
 
-.user-list .user:nth-child(2n+1) {
-	margin-left: 0px;
+.user .checkbox-material {
+	margin-right: 5px;
 }
 
-.user-list .user .wrapper {
-	display:table;
-	height:190px;
-	width:100%;
+.user .info-item {
+	margin: 8px 0px;
 }
 
-.user-list .user .wrapper .user-info,
-.user-list .user .wrapper .img-wrapper {
-	display:table-cell;
-	vertical-align: top;
-}
-
-.user-list .user .wrapper .img-wrapper {
-	position:relative;
-	width:35%;
-	height:100%;
-}
-
-.user-list .user .wrapper .img-wrapper img {
-	width:100%;
-	height:100%;
-}
-
-.user-list .user .wrapper .user-info {
-	width: 65%;
-	height:100%;
-}
-
-.user-list .user .img-wrapper .img-overlay {
-	width:100%;
-	height:100%;
-	position:absolute;
-	top:0px;
-	height:100%;
-	width:100%;
-	background-color: #000;
-	opacity: 0.3;
-}
-
-.user-list .user .img-wrapper .icon-wrapper {
-	position:absolute;
-	top:10px;
-	right: 10px;
-	color: #fff;	
-}
-
-.user-list .user .img-wrapper .icon-wrapper i {
-	cursor: pointer;
-}
-
-.user-list .user .info-item {
-	padding: 7px;
-}
-
-.user-list .user .info-item i, 
-.user-list .user .info-item > span {
-	display:inline-block;
-	vertical-align: middle;
-}
-
-.user-list .user .info-item .username {
+.user .info-item .username {
+	margin-top:18px;
 	font-size: 18px;
 	font-weight: normal;
 	width: 100%;
@@ -79,32 +22,23 @@
 	margin-left: 3px;
 }
 
-.action-wrapper {
-	position:fixed;
-	bottom: 30px;
-	right: 55px;
+.user .info-item i, 
+.user .info-item > span {
+	display:inline-block;
+	vertical-align: middle;
 }
 
-.action-wrapper .btn {
-	margin-right: 10px;
+.user-row .user {
+	margin-bottom: 20px;
 }
 
-.modal-header {
-	padding-bottom: 24px !important;
-}
-
-.checkbox {
-	margin:0px;
-	padding:0px;
-	margin-left:2px;
-}
-
-.checkbox-material {
-	margin-right: 5px;
-}
-
-.gravatar-img {
-	width:100%;
-	height:100%;
+.user .user-img {
+	background-repeat: no-repeat;
 	background-position: center;
+	background-size: cover;
+}
+
+.user .user-info,
+.user .user-img {
+	height: 200px;
 }

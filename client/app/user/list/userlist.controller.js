@@ -5,30 +5,49 @@ angular.module('bigBrotherApp')
   	  $scope.users = [];
   	  var deviceList = Device.getList();
 
+  	  var replaceGravatar = function() {
+  	  	$('.user-img').each(function() {
+  	  		var _this = $(this);
+  	  		_this.css('background-image', 'url('+_this.find('img').attr('src')+')');
+  	  		_this.find('img').remove();
+  	  	});
+  	  };
+
       var getUserList = function() {
 	  	User.getList(function(data) {
-			$timeout(function() {
-				$scope.originalUsersArr = data;
-				$scope.users = angular.copy(data);
-				$scope.users.forEach(function(user) {
-					user.checked = false;
-					user.device = '';
-					var userDevice = user.devices.filter(function(device) {
-						return typeof device.endedOn === 'undefined';
-					})[0];
+			$scope.originalUsersArr = data;
+			$scope.users = angular.copy(data);
+			$scope.users.forEach(function(user) {
+				user.checked = false;
+				user.device = '';
+				var userDevice = user.devices.filter(function(device) {
+					return typeof device.endedOn === 'undefined';
+				})[0];
 
-					if(userDevice) {
-						deviceList.$promise.then(function(devices) {
-							var device = devices.filter(function(device) {
-								return device._id === userDevice.deviceId;
-							})[0];
-							if(device) {
-								user.device = device;
-							}
-						});
-					}
-				});
-			}, 100);
+				if(userDevice) {
+					deviceList.$promise.then(function(devices) {
+						var device = devices.filter(function(device) {
+							return device._id === userDevice.deviceId;
+						})[0];
+						if(device) {
+							user.device = device;
+						}
+					});
+				}
+			});
+
+			var colNum = 2;
+			$scope.rows = [];
+			var cols = [];
+			$scope.users.forEach(function(user, index) {
+				cols.push(user);
+				if(cols.length === colNum || index === $scope.users.length - 1) {
+					$scope.rows.push(cols);
+					cols = [];
+				}
+			});
+
+			$timeout(replaceGravatar, 10);
 		});
 	  };
 

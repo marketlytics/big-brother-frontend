@@ -7,17 +7,11 @@
 		<button class="btn btn-fab btn-raised btn-primary" ng-click="onDelete()"><i class="mdi-action-delete"></i><div class="ripple-wrapper"></div></button>
 	</div>
 
-	<div class="user-list">
-		<div class="user shadow-z-2" ng-repeat="user in users | orderBy: 'name'">
-			<div class="wrapper">
-				<div class="img-wrapper">
-					<div class="gravatar-img" gravatar-src="'{{user.email}}'" gravatar-size="200"> </div>
-					<div class="img-overlay"></div>
-					<div ng-if="isLoggedIn()" class="icon-wrapper">
-						<i class="mdi-image-edit" ng-click="openUserModal(user)"></i>
-					</div>
-				</div>
-				<div class="user-info">
+	<div class="row user-row" ng-repeat="cols in rows">
+		<div class="col-md-6 col-sm-6 col-xs-12 user" ng-repeat="user in cols">
+			<div class="row shadow-z-2" style="margin-right:0px">
+				<div class="col-md-4 col-sm-4 col-xs-4 user-img"><img gravatar-src="'{{user.email}}'" gravatar-size="200"/></div>
+				<div class="col-md-8 col-sm-8 col-xs-8 user-info">
 					<div class="info-item">
 						<div ng-if="isLoggedIn()" class="checkbox username"><label><input type="checkbox" name="{{user.id}}" ng-model="selected.user" ng-change="onToggle(user)"/>{{user.name}}</label></div>
 						<span ng-if="!isLoggedIn()" class="username">{{user.name}}</span>

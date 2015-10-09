@@ -49,15 +49,15 @@ var users = [
     email: 'abdulqadir@marketlytics.com',
     devices: [{
       deviceId: devices[0]._id,
-      startedOn: moment().subtract(30, 'days').unix(),
-      endedOn: moment().subtract(15, 'days').unix()
+      startedOn: moment().subtract(30, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
+      endedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
     }, {
       deviceId: devices[1]._id,
-      startedOn: moment().subtract(15, 'days').unix(),
-      endedOn: moment().subtract(5, 'days').unix()
+      startedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
+      endedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
     }, {
       deviceId: devices[2]._id,
-      startedOn: moment().subtract(5, 'days').unix()
+      startedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
     }]
   }),
   new User({
@@ -65,15 +65,15 @@ var users = [
     email: 'mashhoodr@gmail.com',
     devices: [{
       deviceId: devices[0]._id,
-      startedOn: moment().subtract(15, 'days').unix(),
-      endedOn: moment().subtract(5, 'days').unix()
+      startedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
+      endedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
     }, {
       deviceId: devices[1]._id,
-      startedOn: moment().subtract(30, 'days').unix(),
-      endedOn: moment().subtract(15, 'days').unix()
+      startedOn: moment().subtract(30, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
+      endedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
     }, {
       deviceId: devices[3]._id,
-      startedOn: moment().subtract(5, 'days').unix()
+      startedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
     }]
   })
 ];

@@ -9,3 +9,7 @@
 .device-history .history-table-container h3 {
 	margin-top: 0px;
 }
+
+#startedOn, #endedOn{
+	margin-top:11px;
+}

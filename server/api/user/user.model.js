@@ -159,12 +159,11 @@ UserSchema
       return typeof userDevice.startedOn !== 'undefined' && typeof userDevice.endedOn !== 'undefined';
     });
     filteredDevices.sort(function(a, b) {
-      return new Date(a.startedOn * 1000).setHours(0,0,0,0) - new Date(b.startedOn * 1000).setHours(0,0,0,0);
+      return a.startedOn - b.startedOn;
     });
-    var res = true;
     for(var i = 0; i < filteredDevices.length - 1; i++)
     {
-      if(new Date(filteredDevices[i+1].startedOn * 1000).setHours(0,0,0,0) < new Date(filteredDevices[i].endedOn * 1000).setHours(0,0,0,0)) {
+      if(filteredDevices[i+1].startedOn < filteredDevices[i].endedOn) {
         return false;
       }
     }

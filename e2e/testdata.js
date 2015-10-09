@@ -45,12 +45,12 @@ var testdata = {
 			email: 'mashhoodr@gmail.com',
 			devices: [{
 				deviceId: device3._id,
-				startedOn: moment().subtract(10, 'days').unix(),
-				endedOn: moment().subtract(5, 'days').unix()
+				startedOn: moment().subtract(10, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
+				endedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
 			}, {
 				deviceId: device2._id,
-				startedOn: moment().subtract(5, 'days').unix(),
-				endedOn: moment().unix()
+				startedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
+				endedOn: moment().set({hour: 0, minutes: 0, seconds: 0}).unix()
 			},{
 				deviceId: device1._id
 			}]

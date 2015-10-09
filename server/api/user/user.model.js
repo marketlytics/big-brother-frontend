@@ -7,7 +7,7 @@ var Device = require('../device/device.model');
 
 var UserDevices = new Schema({
   deviceId: { type: Schema.ObjectId, ref: 'Device', required: true },
-  startedOn: { type: Number, default: new Date().getTime() / 1000 },
+  startedOn: { type: Number, default: new Date().setHours(0,0,0) / 1000 },
   endedOn: { type: Number }
 });
 

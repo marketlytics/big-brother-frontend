@@ -26,11 +26,11 @@ var UserDevicePage = function() {
 		}
 
 		if(typeof userDevice.startedOn !== 'undefined') {
-			element(by.model('userDevice.startedOn')).sendKeys(moment.utc(userDevice.startedOn, 'X').format('MM/DD/YYYY'));
+			element(by.model('userDevice.startedOn')).clear().sendKeys(moment.utc(userDevice.startedOn, 'X').format('MMM DD, YYYY'));
 		}
 
 		if(typeof userDevice.endedOn !== 'undefined') {
-			element(by.model('userDevice.endedOn')).sendKeys(moment.utc(userDevice.endedOn, 'X').format('MM/DD/YYYY'));
+			element(by.model('userDevice.endedOn')).clear().sendKeys(moment.utc(userDevice.endedOn, 'X').format('MMM DD, YYYY'));
 		}
 		
 		element(by.css('.modal-footer .btn-primary')).click();

@@ -53,8 +53,8 @@ describe('User Device History View', function() {
 
 		it('should add new device in history', function() {
 			var userDeviceCpy = JSON.parse(JSON.stringify(testdata.users[1].devices[0]));
-			userDeviceCpy.startedOn = moment().subtract(20, 'days').unix();
-			userDeviceCpy.endedOn = moment().subtract(10, 'days').unix();
+			userDeviceCpy.startedOn = moment().subtract(20, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix();
+			userDeviceCpy.endedOn = moment().subtract(10, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix();
 			page.addUserDevice(userDeviceCpy);
 			page.assertUserDevice(userDeviceCpy);
 		});
@@ -69,7 +69,7 @@ describe('User Device History View', function() {
 
 		it('should show error if any of the device has a overlapping range', function() {
 			var userDeviceCpy = JSON.parse(JSON.stringify(testdata.users[1].devices[0]));
-			userDeviceCpy.endedOn = moment.utc(userDeviceCpy.endedOn, 'X').subtract(3, 'days').unix();
+			userDeviceCpy.endedOn = moment.utc(userDeviceCpy.endedOn, 'X').unix();
 			page.addUserDevice(userDeviceCpy);
 			page.assertError();
 			page.closeModal();
@@ -77,7 +77,7 @@ describe('User Device History View', function() {
 
 		it('should show error if end date is greater than start date', function() {
 			var userDeviceCpy = JSON.parse(JSON.stringify(testdata.users[1].devices[0]));
-			userDeviceCpy.endedOn = moment().subtract(20, 'days').unix();
+			userDeviceCpy.endedOn = moment().subtract(20, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix();
 			page.addUserDevice(userDeviceCpy);
 			page.assertError();
 			page.closeModal();

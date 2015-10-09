@@ -93,9 +93,9 @@ var getIncludes = function(queryObj, records, devices, callback) {
 			if(tokens.indexOf('users') >= 0) {
 				var user = usersCpy.filter(function(user) {
 					return user.devices.filter(function(userDevice) {
-						var ret = userDevice.mac === record.mac && record.lastUpdated >= Math.round(userDevice.startedOn.getTime() / 1000);
+						var ret = userDevice.mac === record.mac && record.lastUpdated >= userDevice.startedOn;
 						if(typeof userDevice.endedOn !== 'undefined') {
-							ret = ret && record.lastUpdated <= Math.round(userDevice.endedOn.getTime() / 1000);
+							ret = ret && record.lastUpdated <= userDevice.endedOn;
 						}
 						return ret;
 					}).length;

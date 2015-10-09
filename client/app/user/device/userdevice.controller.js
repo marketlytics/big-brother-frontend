@@ -22,9 +22,9 @@ angular.module('bigBrotherApp')
         $scope.userDevices = angular.copy(data);
         $scope.userDevices.forEach(function(userDevice) {
           userDevice.checked = false;
-          userDevice.startedOn = moment(userDevice.startedOn).format('ll')
+          userDevice.startedOn = moment.utc(userDevice.startedOn, 'X').format('ll')
           if(typeof userDevice.endedOn !== 'undefined') {
-            userDevice.endedOn = moment(userDevice.endedOn).format('ll')
+            userDevice.endedOn = moment.utc(userDevice.endedOn, 'X').format('ll')
           }
         });
         $scope.userDevices.sort(function(a, b) {
@@ -89,9 +89,9 @@ angular.module('bigBrotherApp')
     $scope.devices = devices;
     if(userDevice !== null) {
       $scope.userDevice = angular.copy(userDevice);
-      $scope.userDevice.startedOn = new Date($scope.userDevice.startedOn);
+      $scope.userDevice.startedOn = moment.utc($scope.userDevice.startedOn, 'X').toDate();
       if(typeof $scope.userDevice.endedOn !== 'undefined') {
-        $scope.userDevice.endedOn = new Date($scope.userDevice.endedOn);
+        $scope.userDevice.endedOn = moment.utc($scope.userDevice.endedOn, 'X').toDate();
       }
     }
 
@@ -105,19 +105,19 @@ angular.module('bigBrotherApp')
             return userDevice._id === $scope.userDevice._id;
           })[0];
           userDeviceToModify.deviceId = $scope.userDevice.deviceId;
-          userDeviceToModify.startedOn = $scope.userDevice.startedOn;
+          userDeviceToModify.startedOn = moment($scope.userDevice.startedOn).unix();
           if(typeof $scope.userDevice.endedOn !== 'undefined') {
-            userDeviceToModify.endedOn = $scope.userDevice.endedOn;
+            userDeviceToModify.endedOn = moment($scope.userDevice.endedOn).unix();
           }
         }
         else 
         {
           var userDevice = {
             deviceId: $scope.userDevice.deviceId,
-            startedOn: $scope.userDevice.startedOn
+            startedOn: moment($scope.userDevice.startedOn).unix()
           };
           if(typeof $scope.userDevice.endedOn !== 'undefined') {
-            userDevice.endedOn = $scope.userDevice.endedOn;
+            userDevice.endedOn = moment($scope.userDevice.endedOn).unix();
           }
           user.devices.push(userDevice);
         }

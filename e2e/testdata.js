@@ -1,5 +1,6 @@
 var User = require('../server/api/user/user.model');
 var Device = require('../server/api/device/device.model');
+var moment = require('moment');
 
 var device1 = new Device({
 	name: 'mac01',
@@ -44,12 +45,12 @@ var testdata = {
 			email: 'mashhoodr@gmail.com',
 			devices: [{
 				deviceId: device3._id,
-				startedOn: new Date().setDate(new Date().getDate() - 10),
-				endedOn: new Date().setDate(new Date().getDate() - 5)
+				startedOn: moment().subtract(10, 'days').unix(),
+				endedOn: moment().subtract(5, 'days').unix()
 			}, {
 				deviceId: device2._id,
-				startedOn: new Date().setDate(new Date().getDate() - 5),
-				endedOn: new Date()
+				startedOn: moment().subtract(5, 'days').unix(),
+				endedOn: moment().unix()
 			},{
 				deviceId: device1._id
 			}]

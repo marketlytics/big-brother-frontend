@@ -4,6 +4,7 @@ describe('User Device History View', function() {
 	var page = require('./user_device.po');
   var testdata = require('../testdata');
   var utils = require('../utils');
+  var moment = require('moment');
 
   var login = function() {
 		browser.get('/login');
@@ -52,8 +53,8 @@ describe('User Device History View', function() {
 
 		it('should add new device in history', function() {
 			var userDeviceCpy = JSON.parse(JSON.stringify(testdata.users[1].devices[0]));
-			userDeviceCpy.startedOn = new Date().setDate(new Date().getDate() - 20);
-			userDeviceCpy.endedOn = new Date().setDate(new Date().getDate() - 10);
+			userDeviceCpy.startedOn = moment().subtract(20, 'days').unix();
+			userDeviceCpy.endedOn = moment().subtract(10, 'days').unix();
 			page.addUserDevice(userDeviceCpy);
 			page.assertUserDevice(userDeviceCpy);
 		});
@@ -68,8 +69,7 @@ describe('User Device History View', function() {
 
 		it('should show error if any of the device has a overlapping range', function() {
 			var userDeviceCpy = JSON.parse(JSON.stringify(testdata.users[1].devices[0]));
-			userDeviceCpy.startedOn = new Date().setDate(new Date().getDate() - 2);
-			userDeviceCpy.endedOn = new Date();
+			userDeviceCpy.endedOn = moment.utc(userDeviceCpy.endedOn, 'X').subtract(3, 'days').unix();
 			page.addUserDevice(userDeviceCpy);
 			page.assertError();
 			page.closeModal();
@@ -77,7 +77,7 @@ describe('User Device History View', function() {
 
 		it('should show error if end date is greater than start date', function() {
 			var userDeviceCpy = JSON.parse(JSON.stringify(testdata.users[1].devices[0]));
-			userDeviceCpy.endedOn = new Date().setDate(new Date().getDate() - 20);
+			userDeviceCpy.endedOn = moment().subtract(20, 'days').unix();
 			page.addUserDevice(userDeviceCpy);
 			page.assertError();
 			page.closeModal();

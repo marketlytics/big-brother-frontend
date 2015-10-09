@@ -49,15 +49,15 @@ var users = [
     email: 'abdulqadir@marketlytics.com',
     devices: [{
       deviceId: devices[0]._id,
-      startedOn: new Date(new Date().setDate(new Date().getDate() - 30)),
-      endedOn: new Date(new Date().setDate(new Date().getDate() - 15))
+      startedOn: moment().subtract(30, 'days').unix(),
+      endedOn: moment().subtract(15, 'days').unix()
     }, {
       deviceId: devices[1]._id,
-      startedOn: new Date(new Date().setDate(new Date().getDate() - 15)),
-      endedOn: new Date(new Date().setDate(new Date().getDate() - 5))
+      startedOn: moment().subtract(15, 'days').unix(),
+      endedOn: moment().subtract(5, 'days').unix()
     }, {
       deviceId: devices[2]._id,
-      startedOn: new Date(new Date().setDate(new Date().getDate() - 5))
+      startedOn: moment().subtract(5, 'days').unix()
     }]
   }),
   new User({
@@ -65,15 +65,15 @@ var users = [
     email: 'mashhoodr@gmail.com',
     devices: [{
       deviceId: devices[0]._id,
-      startedOn: new Date(new Date().setDate(new Date().getDate() - 15)),
-      endedOn: new Date(new Date().setDate(new Date().getDate() - 5))
+      startedOn: moment().subtract(15, 'days').unix(),
+      endedOn: moment().subtract(5, 'days').unix()
     }, {
       deviceId: devices[1]._id,
-      startedOn: new Date(new Date().setDate(new Date().getDate() - 30)),
-      endedOn: new Date(new Date().setDate(new Date().getDate() - 15))
+      startedOn: moment().subtract(30, 'days').unix(),
+      endedOn: moment().subtract(15, 'days').unix()
     }, {
       deviceId: devices[3]._id,
-      startedOn: new Date(new Date().setDate(new Date().getDate() - 5))
+      startedOn: moment().subtract(5, 'days').unix()
     }]
   })
 ];
@@ -105,7 +105,7 @@ var getRecords = function(mac, from, to) {
       var randomInt = 0;
       var length = 0;
       do {
-        randomInt = generateRandomInt(from.clone().hour(8), from.clone().hour(23));
+        randomInt = generateRandomInt(from.clone().hour(8).unix(), from.clone().hour(23).unix());
         length = randomTime.filter(function(timestamp) {
           return timestamp === randomInt;
         }).length;

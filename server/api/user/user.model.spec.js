@@ -4,6 +4,7 @@ var testdata = require('../../config/testdata');
 var should = require('should');
 var User = require('./user.model');
 var Device = require('../device/device.model');
+var moment = require('moment');
 
 describe('User Model', function() {
   
@@ -100,8 +101,8 @@ describe('User Model', function() {
       var userDup = new User(testdata.user[1]);
       userDup.devices = [{
         device: device._id,
-        startedOn: new Date(new Date().setDate(new Date().getDate() + 1)),
-        endedOn: new Date()
+        startedOn: moment().add(1, 'days').unix(),
+        endedOn: moment().unix()
       }];
       userDup.save(function(err) {
         should.exist(err);

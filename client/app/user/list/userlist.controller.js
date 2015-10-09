@@ -150,13 +150,12 @@ angular.module('bigBrotherApp')
 				})[0];
 
 				flag = currentDevice && currentDevice.deviceId !== $scope.device._id;
-				if(flag) currentDevice.endedOn = new Date();
+				if(flag) currentDevice.endedOn = moment().unix();
 			}
 
 			if( ($scope.device && userCpy.devices.length === 0) || flag) {
 				userCpy.devices.push({
-					deviceId: $scope.device._id,
-					startedOn: new Date()
+					deviceId: $scope.device._id
 				});
 			}
 
@@ -166,10 +165,10 @@ angular.module('bigBrotherApp')
 			userCpy.devices.forEach(function(deviceRecord) {
 				delete deviceRecord._id;
 				if(typeof deviceRecord.startedOn === 'string') {
-					deviceRecord.startedOn = new Date(deviceRecord.startedOn);
+					deviceRecord.startedOn = moment(deviceRecord.startedOn).unix();
 				}
 				if(typeof deviceRecord.endedOn === 'string') {
-					deviceRecord.endedOn = new Date(deviceRecord.endedOn);
+					deviceRecord.endedOn = moment(deviceRecord.endedOn).unix();
 				}
 			});
 

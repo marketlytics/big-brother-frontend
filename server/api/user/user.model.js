@@ -7,8 +7,8 @@ var Device = require('../device/device.model');
 
 var UserDevices = new Schema({
   deviceId: { type: Schema.ObjectId, ref: 'Device', required: true },
-  startedOn: { type: Date, default: new Date() },
-  endedOn: { type: Date }
+  startedOn: { type: Number, default: new Date().getTime() / 1000 },
+  endedOn: { type: Number }
 });
 
 var UserSchema = new Schema({
@@ -159,12 +159,12 @@ UserSchema
       return typeof userDevice.startedOn !== 'undefined' && typeof userDevice.endedOn !== 'undefined';
     });
     filteredDevices.sort(function(a, b) {
-      return a.startedOn.setHours(0,0,0,0) - b.startedOn.setHours(0,0,0,0);
+      return new Date(a.startedOn * 1000).setHours(0,0,0,0) - new Date(b.startedOn * 1000).setHours(0,0,0,0);
     });
     var res = true;
     for(var i = 0; i < filteredDevices.length - 1; i++)
     {
-      if(filteredDevices[i+1].startedOn.setHours(0,0,0,0) < filteredDevices[i].endedOn.setHours(0,0,0,0)) {
+      if(new Date(filteredDevices[i+1].startedOn * 1000).setHours(0,0,0,0) < new Date(filteredDevices[i].endedOn * 1000).setHours(0,0,0,0)) {
         return false;
       }
     }

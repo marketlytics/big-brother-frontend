@@ -7,29 +7,28 @@ angular.module('bigBrotherApp')
 
     var deviceList = Device.getList();
 
-    deviceList.$promise.then(function(data) {
-      $scope.devices = data;
-    });
-
     var user;
     var getUser = function() {
-      user = User.getUser({id: $routeParams.id});
-      user.$promise.then(function(data) {
-        $scope.user = data;
-        $scope.originalUserDevices = data.devices;
-        $scope.userDevices = angular.copy(data.devices);
-        $scope.userDevices.forEach(function(userDevice) {
-          userDevice.checked = false;
-          userDevice.startedOn = moment(userDevice.startedOn, 'X').format('MMM DD, YYYY')
-          if(typeof userDevice.endedOn !== 'undefined') {
-            userDevice.endedOn = moment(userDevice.endedOn, 'X').format('MMM DD, YYYY')
-          }
-          userDevice.name = $scope.devices.filter(function(device) {
-            return userDevice.deviceId === device._id;
-          })[0].name;
-        });
-        $scope.userDevices.sort(function(a, b) {
-          return moment(a).unix() - moment(b).unix();
+      deviceList.$promise.then(function(data) {
+        $scope.devices = data;
+        user = User.getUser({id: $routeParams.id});
+        user.$promise.then(function(data) {
+          $scope.user = data;
+          $scope.originalUserDevices = data.devices;
+          $scope.userDevices = angular.copy(data.devices);
+          $scope.userDevices.forEach(function(userDevice) {
+            userDevice.checked = false;
+            userDevice.startedOn = moment(userDevice.startedOn, 'X').format('MMM DD, YYYY')
+            if(typeof userDevice.endedOn !== 'undefined') {
+              userDevice.endedOn = moment(userDevice.endedOn, 'X').format('MMM DD, YYYY')
+            }
+            userDevice.name = $scope.devices.filter(function(device) {
+              return userDevice.deviceId === device._id;
+            })[0].name;
+          });
+          $scope.userDevices.sort(function(a, b) {
+            return moment(a).unix() - moment(b).unix();
+          });
         });
       });
     };

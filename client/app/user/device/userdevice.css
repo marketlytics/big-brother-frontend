@@ -13,3 +13,11 @@
 #startedOn, #endedOn{
 	margin-top:11px;
 }
+
+.device-history .table > tbody > tr > td {
+	vertical-align: middle;
+}
+
+.device-history .mdi-image-edit {
+	cursor: pointer;
+}

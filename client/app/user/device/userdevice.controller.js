@@ -11,29 +11,30 @@ angular.module('bigBrotherApp')
       $scope.devices = data;
     });
 
-    var user = User.getUser({id: $routeParams.id});
-    user.$promise.then(function(data) {
-      $scope.user = data;
-    });
-
-    var getUserHistory = function() {  	
-    	User.getHistory({id: $routeParams.id, action: 'history'}, function(data) {
-    		$scope.originalUserDevices = data;
-        $scope.userDevices = angular.copy(data);
+    var user;
+    var getUser = function() {
+      user = User.getUser({id: $routeParams.id});
+      user.$promise.then(function(data) {
+        $scope.user = data;
+        $scope.originalUserDevices = data.devices;
+        $scope.userDevices = angular.copy(data.devices);
         $scope.userDevices.forEach(function(userDevice) {
           userDevice.checked = false;
           userDevice.startedOn = moment(userDevice.startedOn, 'X').format('MMM DD, YYYY')
           if(typeof userDevice.endedOn !== 'undefined') {
             userDevice.endedOn = moment(userDevice.endedOn, 'X').format('MMM DD, YYYY')
           }
+          userDevice.name = $scope.devices.filter(function(device) {
+            return userDevice.deviceId === device._id;
+          })[0].name;
         });
         $scope.userDevices.sort(function(a, b) {
-          return moment(a.startedOn).toDate() - moment(b.startedOn).toDate();
+          return moment(a).unix() - moment(b).unix();
         });
-    	});
+      });
     };
 
-    getUserHistory();
+    getUser();
 
     $scope.openUserDeviceModal = function(userDevice) {
       var modalInstance = $modal.open({
@@ -66,7 +67,7 @@ angular.module('bigBrotherApp')
       });
 
       modalInstance.result.then(function(msg) {
-        getUserHistory();
+        getUser();
       });
     };
 
@@ -84,7 +85,7 @@ angular.module('bigBrotherApp')
       delete userCpy._id;
       delete userCpy.__v;
       User.editUser({id: $scope.user._id}, userCpy, function(data) {
-        getUserHistory();
+        getUser();
       }, function(err) {
         $scope.errors = Utils.getErrMessages(err);
       });
@@ -114,19 +115,19 @@ angular.module('bigBrotherApp')
             return userDevice._id === $scope.userDevice._id;
           })[0];
           userDeviceToModify.deviceId = $scope.userDevice.deviceId;
-          userDeviceToModify.startedOn = moment($scope.userDevice.startedOn).set({hour: 0, minutes: 0, seconds: 0}).unix()
+          userDeviceToModify.startedOn = moment($scope.userDevice.startedOn).unix()
           if($scope.userDevice.endedOn) {
-            userDeviceToModify.endedOn = moment($scope.userDevice.endedOn).set({hour: 0, minutes: 0, seconds: 0}).unix();
+            userDeviceToModify.endedOn = moment($scope.userDevice.endedOn).unix();
           }
         }
         else 
         {
           var userDevice = {
             deviceId: $scope.userDevice.deviceId,
-            startedOn: moment($scope.userDevice.startedOn).set({hour: 0, minutes: 0, seconds: 0}).unix()
+            startedOn: moment($scope.userDevice.startedOn).unix()
           };
           if($scope.userDevice.endedOn) {
-            userDevice.endedOn = moment($scope.userDevice.endedOn).set({hour: 0, minutes: 0, seconds: 0}).unix();
+            userDevice.endedOn = moment($scope.userDevice.endedOn).unix();
           }
           user.devices.push(userDevice);
         }

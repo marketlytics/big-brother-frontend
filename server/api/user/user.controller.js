@@ -45,33 +45,6 @@ exports.show = function (req, res, next) {
   });
 };
 
-exports.showDeviceHistory = function(req, res, next) {
-  var userId = req.params.id;
-
-  User.findById(userId, function(err, user) {
-    if(err) return next(err);
-    if(!user) return res.status(401).send('Unauthorized');
-    var deviceIds = user.devices.map(function(userDevice) {
-      return userDevice.deviceId;
-    });
-    Device.find({_id: {$in: deviceIds}}, function(err, devices) {
-      if(err) return next(err);
-      if(!devices) return res.status(500);
-      var userDevices = [];
-      user.devices.forEach(function(userDevice) {
-        devices.forEach(function(device) {
-          if(userDevice.deviceId.toString() === device._id.toString()) {
-            var userDeviceDup = JSON.parse(JSON.stringify(userDevice));
-            userDeviceDup.deviceInfo = JSON.parse(JSON.stringify(device));
-            userDevices.push(userDeviceDup);
-          }
-        });
-      });
-      res.status(200).json(userDevices);
-    });
-  });
-};
-
 /**
  * Deletes a user
  * restriction: 'admin'

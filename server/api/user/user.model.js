@@ -203,7 +203,7 @@ UserSchema
     //check if devices within a user's history donot overlap
     var devicesCpy = devices.map(function(device) {
       var deviceCpy = {
-        _id: device._id,
+        deviceId: device.deviceId,
         startedOn: device.startedOn
       };
       if(device.endedOn !== 'undefined') {

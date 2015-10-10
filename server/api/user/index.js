@@ -9,7 +9,6 @@ var router = express.Router();
 
 router.get('/', controller.index);
 router.get('/:id', controller.show);
-router.get('/:id/history', controller.showDeviceHistory);
 router.post('/', auth.hasRole('admin'), controller.create);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.put('/:id', auth.hasRole('admin'), controller.edit);

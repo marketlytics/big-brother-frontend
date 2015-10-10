@@ -10,10 +10,6 @@ angular.module('bigBrotherApp')
         method: 'GET',
         isArray: true
       },
-      getHistory: {
-        method: 'GET',
-        isArray: true
-      },
       addUser: {
         method: 'POST'
       },

@@ -49,15 +49,15 @@ var users = [
     email: 'abdulqadir@marketlytics.com',
     devices: [{
       deviceId: devices[0]._id,
-      startedOn: moment().subtract(30, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
-      endedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+      startedOn: moment().subtract(30, 'days').unix(),
+      endedOn: moment().subtract(15, 'days').unix()
     }, {
       deviceId: devices[1]._id,
-      startedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
-      endedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+      startedOn: moment().subtract(15, 'days').unix(),
+      endedOn: moment().subtract(5, 'days').unix()
     }, {
       deviceId: devices[2]._id,
-      startedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+      startedOn: moment().subtract(5, 'days').unix()
     }]
   }),
   new User({
@@ -65,15 +65,15 @@ var users = [
     email: 'mashhoodr@gmail.com',
     devices: [{
       deviceId: devices[0]._id,
-      startedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
-      endedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+      startedOn: moment().subtract(15, 'days').unix(),
+      endedOn: moment().subtract(5, 'days').unix()
     }, {
       deviceId: devices[1]._id,
-      startedOn: moment().subtract(30, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix(),
-      endedOn: moment().subtract(15, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+      startedOn: moment().subtract(30, 'days').unix(),
+      endedOn: moment().subtract(15, 'days').unix()
     }, {
       deviceId: devices[3]._id,
-      startedOn: moment().subtract(5, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+      startedOn: moment().subtract(5, 'days').unix()
     }]
   })
 ];
@@ -117,7 +117,7 @@ var getRecords = function(mac, from, to) {
       records.push({
         mac: mac,
         lastUpdated: timestamp,
-        status: index % 2 === 0 ? 'UP' : 'UP'
+        status: index % 2 === 0 ? 'UP' : 'DOWN'
       })
     });
     from.add(1, 'days');

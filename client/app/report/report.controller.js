@@ -133,7 +133,7 @@ angular.module('bigBrotherApp')
 					if(typeof record.user === 'undefined') return;
 
 					var localRecord = angular.copy(record);
-					localRecord.date = moment(localRecord.lastUpdated * 1000);
+					localRecord.date = moment(localRecord.lastUpdated, 'X');
 					var month = localRecord.date.format('MMM YYYY');
 					var date = localRecord.date.date();
 					$scope.data[month][date]['users'][record['user']].push(localRecord);

@@ -22,9 +22,9 @@ angular.module('bigBrotherApp')
         $scope.userDevices = angular.copy(data);
         $scope.userDevices.forEach(function(userDevice) {
           userDevice.checked = false;
-          userDevice.startedOn = moment.utc(userDevice.startedOn, 'X').format('MMM DD, YYYY')
+          userDevice.startedOn = moment(userDevice.startedOn, 'X').format('MMM DD, YYYY')
           if(typeof userDevice.endedOn !== 'undefined') {
-            userDevice.endedOn = moment.utc(userDevice.endedOn, 'X').format('MMM DD, YYYY')
+            userDevice.endedOn = moment(userDevice.endedOn, 'X').format('MMM DD, YYYY')
           }
         });
         $scope.userDevices.sort(function(a, b) {
@@ -98,9 +98,9 @@ angular.module('bigBrotherApp')
     $scope.devices = devices;
     if(userDevice !== null) {
       $scope.userDevice = angular.copy(userDevice);
-      $scope.userDevice.startedOn = moment.utc(userDevice.startedOn, 'X').format('MMM DD, YYYY');
+      $scope.userDevice.startedOn = moment(userDevice.startedOn, 'X').format('MMM DD, YYYY');
       if(typeof $scope.userDevice.endedOn !== 'undefined') {
-        $scope.userDevice.endedOn = moment.utc(userDevice.endedOn, 'X').format('MMM DD, YYYY');
+        $scope.userDevice.endedOn = moment(userDevice.endedOn, 'X').format('MMM DD, YYYY');
       }
     }
 
@@ -114,19 +114,19 @@ angular.module('bigBrotherApp')
             return userDevice._id === $scope.userDevice._id;
           })[0];
           userDeviceToModify.deviceId = $scope.userDevice.deviceId;
-          userDeviceToModify.startedOn = moment($scope.userDevice.startedOn).add(1, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+          userDeviceToModify.startedOn = moment($scope.userDevice.startedOn).set({hour: 0, minutes: 0, seconds: 0}).unix()
           if($scope.userDevice.endedOn) {
-            userDeviceToModify.endedOn = moment($scope.userDevice.endedOn).add(1, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix();
+            userDeviceToModify.endedOn = moment($scope.userDevice.endedOn).set({hour: 0, minutes: 0, seconds: 0}).unix();
           }
         }
         else 
         {
           var userDevice = {
             deviceId: $scope.userDevice.deviceId,
-            startedOn: moment($scope.userDevice.startedOn).add(1, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix()
+            startedOn: moment($scope.userDevice.startedOn).set({hour: 0, minutes: 0, seconds: 0}).unix()
           };
           if($scope.userDevice.endedOn) {
-            userDevice.endedOn = moment($scope.userDevice.endedOn).add(1, 'days').set({hour: 0, minutes: 0, seconds: 0}).unix();
+            userDevice.endedOn = moment($scope.userDevice.endedOn).set({hour: 0, minutes: 0, seconds: 0}).unix();
           }
           user.devices.push(userDevice);
         }

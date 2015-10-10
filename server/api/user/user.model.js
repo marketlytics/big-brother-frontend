@@ -154,24 +154,93 @@ UserSchema
 
 UserSchema
   .path('devices')
-  .validate(function(devices) {
-    var filteredDevices = devices.filter(function(userDevice) {
-      return typeof userDevice.startedOn !== 'undefined' && typeof userDevice.endedOn !== 'undefined';
+  .validate(function(devices, respond) {
+    
+    var _this = this;
+
+    var checkOverlap = function(deviceId, startedOn, endedOn, callback) {
+      var query = {
+        $and: [
+          {
+            _id: {$ne: _this._id}
+          },
+          {
+            devices: {
+              $elemMatch: {
+                deviceId: deviceId,
+                $or: [
+                  {startedOn: {$gt: startedOn}}, 
+                  {endedOn: {$gt: startedOn}}
+                ]
+              }
+            }
+          }
+        ]
+      };
+      if(endedOn !== null) {
+        query.$and[1].devices.$elemMatch.$or[0].startedOn.$lt = endedOn;
+        query.$and[1].devices.$elemMatch.$or[1].endedOn.$lt = endedOn;
+      }
+      mongoose.model('User').find(query, callback);
+    };
+
+    var traverse = function(devices, callback) {
+      if(devices.length === 0) {
+        callback(true);
+        return;
+      }
+      checkOverlap(
+        devices[0].deviceId, 
+        devices[0].startedOn, 
+        typeof devices[0].endedOn !== 'undefined' ? devices[0].endedOn : null,
+        function(err, users) {
+          if(err || users.length) callback(false);
+          else traverse(devices.slice(1), callback);
+        }
+      );
+    };
+    
+    //check if devices within a user's history donot overlap
+    var devicesCpy = devices.map(function(device) {
+      var deviceCpy = {
+        _id: device._id,
+        startedOn: device.startedOn
+      };
+      if(device.endedOn !== 'undefined') {
+        deviceCpy.endedOn = device.endedOn;
+      }
+      removeTime([deviceCpy]);
+      return deviceCpy;
     });
-    filteredDevices.sort(function(a, b) {
+    devicesCpy.sort(function(a,b) {
       return a.startedOn - b.startedOn;
     });
-    for(var i = 0; i < filteredDevices.length - 1; i++)
-    {
-      if(filteredDevices[i+1].startedOn < filteredDevices[i].endedOn) {
-        return false;
+    for(var i = 1; i < devicesCpy.length; i++) {
+      if(typeof devicesCpy[i-1].endedOn === 'undefined') {
+        respond(false);
+        return;
+      } else if(devicesCpy[i].startedOn < devicesCpy[i-1].endedOn) {
+        respond(false);
+        return;
       }
     }
-    return true;
+
+    //validate if a certain device in user's history is not held by another user in overlapping time range.
+    traverse(devicesCpy, respond);
+
   }, 'Make sure ranges are not overlapped');
 
 var validatePresenceOf = function(value) {
   return value && value.length;
+};
+
+function removeTime(userDevices) {
+  userDevices.forEach(function(userDevice) {
+    userDevice.startedOn = new Date(userDevice.startedOn * 1000).setHours(0,0,0,0) / 1000;
+    if(typeof userDevice.endedOn !== 'undefined') {
+      userDevice.endedOn = new Date(userDevice.endedOn * 1000).setHours(0,0,0,0) / 1000;
+    }
+  });
 };
 
 /**
@@ -183,8 +252,10 @@ UserSchema
       next(new Error('Invalid password'));
     else if (this.role === 'user' && validatePresenceOf(this.hashedPassword))
       next(new Error('Password cannot be set for users'));
-    else 
+    else {
+      removeTime(this.devices);
       next();
+    }
   });
 
 /**

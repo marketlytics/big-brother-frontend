@@ -169,7 +169,7 @@ angular.module('bigBrotherApp')
 				})[0];
 
 				flag = currentDevice && currentDevice.deviceId !== $scope.device._id;
-				if(flag) currentDevice.endedOn = moment().set({hour: 0, minutes: 0, seconds: 0}).unix();
+				if(flag) currentDevice.endedOn = moment().unix();
 			}
 
 			if( ($scope.device && userCpy.devices.length === 0) || flag) {
@@ -184,10 +184,10 @@ angular.module('bigBrotherApp')
 			userCpy.devices.forEach(function(deviceRecord) {
 				delete deviceRecord._id;
 				if(typeof deviceRecord.startedOn === 'string') {
-					deviceRecord.startedOn = moment(deviceRecord.startedOn).set({hour: 0, minutes: 0, seconds: 0}).unix();
+					deviceRecord.startedOn = moment(deviceRecord.startedOn).unix();
 				}
 				if(typeof deviceRecord.endedOn === 'string') {
-					deviceRecord.endedOn = moment(deviceRecord.endedOn).set({hour: 0, minutes: 0, seconds: 0}).unix();
+					deviceRecord.endedOn = moment(deviceRecord.endedOn).unix();
 				}
 			});
 

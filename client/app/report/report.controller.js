@@ -27,8 +27,7 @@ angular.module('bigBrotherApp')
       	dp: {
 			start: {
 				opened: false,
-				dt: moment().subtract(1, 'days').format('MMM DD, YYYY'),
-				max: moment().toDate(),
+				dt: moment().subtract(1, 'days').format('MMM DD, YYYY')
 			},
 			end: {
 				opened: false,
@@ -36,6 +35,32 @@ angular.module('bigBrotherApp')
 			}
       	}
       };
+
+      $('#start').bootstrapMaterialDatePicker({
+      	time: false,
+      	maxDate: moment(),
+      	format: 'MMM DD, YYYY'
+      });
+
+      $('#start').on('change', function(event, date) {
+      	$('#end').bootstrapMaterialDatePicker('setMinDate', date);
+  		var endDate = moment.isMoment($scope.filter.dp.end.dt) ? $scope.filter.dp.end.dt : moment($scope.filter.dp.end.dt);
+  		if(endDate.isBefore(date)) {
+  			$scope.filter.dp.end.dt = date.format('MMM DD, YYYY');
+  		}
+  		$timeout($scope.onDateChange, 0);
+      });
+
+      $('#end').bootstrapMaterialDatePicker({
+      	time: false,
+      	maxDate: moment(),
+      	minDate: $scope.filter.dp.start.dt,
+      	format: 'MMM DD, YYYY'
+      });
+
+      $('#end').on('change', function(event, date) {
+      	$timeout($scope.onDateChange, 0);
+      });
 
       //custom filter for filtering users from table header
       $scope.filterUsers = function(item) {
@@ -47,18 +72,8 @@ angular.module('bigBrotherApp')
       	}).length;
       };
 
-      $scope.openDatePopup = function($event, dp) {
-		$timeout(function() {
-			dp.opened = true;
-		});
-	  };
-
       $scope.onDateChange = function() {
-		var start = moment($scope.filter.dp.start.dt);
-      	if(moment($scope.filter.dp.end.dt).isBefore(start)) {
-			$scope.filter.dp.end.dt = start.format('MMM DD, YYYY');
-      	}
-      	fetchRecords(start, $scope.filter.dp.end.dt);
+      	fetchRecords($scope.filter.dp.start.dt, $scope.filter.dp.end.dt);
       };
 
       var users = User.getList();

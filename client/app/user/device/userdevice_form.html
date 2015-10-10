@@ -11,21 +11,11 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="startedOn">Started On</label>
-				<p class="input-group">
-					<input type="text" datepicker-popup="MMM dd, yyyy" class="form-control" ng-model="userDevice.startedOn" is-open="dp.start.opened" close-text="Close" id="startedOn" />
-					<span class="input-group-btn">
-						<button type="button" class="btn btn-default" ng-click="openDatePopup(dp.start)"><i class="glyphicon glyphicon-calendar"></i></button>
-					</span>
-	            </p>
+				<input type="text" class="material-dp form-control" ng-model="userDevice.startedOn" id="startedOn" placeholder="Start date"/>
 			</div>
 			<div class="form-group">
 				<label class="control-label" for="startedOn">Ended On</label>
-				<p class="input-group">
-					<input type="text" datepicker-popup="MMM dd, yyyy" class="form-control" ng-model="userDevice.endedOn" is-open="dp.end.opened" close-text="Close" id="endedOn" />
-					<span class="input-group-btn">
-						<button type="button" class="btn btn-default" ng-click="openDatePopup(dp.end)"><i class="glyphicon glyphicon-calendar"></i></button>
-					</span>
-	            </p>
+				<input type="text" class="material-dp form-control" ng-model="userDevice.endedOn" id="endedOn" placeholder="End date"/>
 			</div>
 		</form>
 	</div>

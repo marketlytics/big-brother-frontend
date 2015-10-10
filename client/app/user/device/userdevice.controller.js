@@ -22,9 +22,9 @@ angular.module('bigBrotherApp')
         $scope.userDevices = angular.copy(data);
         $scope.userDevices.forEach(function(userDevice) {
           userDevice.checked = false;
-          userDevice.startedOn = moment.utc(userDevice.startedOn, 'X').format('ll')
+          userDevice.startedOn = moment.utc(userDevice.startedOn, 'X').format('MMM DD, YYYY')
           if(typeof userDevice.endedOn !== 'undefined') {
-            userDevice.endedOn = moment.utc(userDevice.endedOn, 'X').format('ll')
+            userDevice.endedOn = moment.utc(userDevice.endedOn, 'X').format('MMM DD, YYYY')
           }
         });
         $scope.userDevices.sort(function(a, b) {
@@ -56,6 +56,15 @@ angular.module('bigBrotherApp')
         }
       });
 
+      modalInstance.opened.then(function() {
+        $timeout(function() {
+          $('.material-dp').bootstrapMaterialDatePicker({
+            time: false,
+            format: 'MMM DD, YYYY'
+          });
+        }, 0);
+      });
+
       modalInstance.result.then(function(msg) {
         getUserHistory();
       });
@@ -85,21 +94,6 @@ angular.module('bigBrotherApp')
 angular.module('bigBrotherApp')
   .controller('UserDeviceModalInstanceCtrl', function ($scope, $modalInstance, User, user, $timeout, Utils, devices, userDevice) {
     
-    $scope.dp = {
-      start: {
-        openend: false,
-      },
-      end: {
-        opened: false,
-      }
-    };
-
-    $scope.openDatePopup = function(dp) {
-      $timeout(function() {
-        dp.opened = true;
-      }, 0);
-    }
-
     $scope.errors = [];
     $scope.devices = devices;
     if(userDevice !== null) {

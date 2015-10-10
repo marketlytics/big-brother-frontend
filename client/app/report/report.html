@@ -13,21 +13,11 @@
 
     <div class="row">
         <div class="col-md-6">
-            <p class="input-group">
-              <input type="text" datepicker-popup="MMM dd, yyyy" class="form-control" ng-model="filter.dp.start.dt" is-open="filter.dp.start.opened" max-date="filter.dp.start.max" ng-change="onDateChange()" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="openDatePopup($event, filter.dp.start)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
+            <input type="text" class="form-control datepicker" id="start" ng-model="filter.dp.start.dt" />
         </div>
 
         <div class="col-md-6">
-            <p class="input-group">
-              <input type="text" datepicker-popup="MMM dd, yyyy" class="form-control" ng-model="filter.dp.end.dt" is-open="filter.dp.end.opened" min-date="filter.dp.start.dt" max-date="filter.dp.start.max" ng-change="onDateChange()" close-text="Close" />
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="openDatePopup($event, filter.dp.end)"><i class="glyphicon glyphicon-calendar"></i></button>
-              </span>
-            </p>
+            <input type="text" class="form-control datepicker" id="end" ng-model="filter.dp.end.dt" />
         </div>
 
     </div>

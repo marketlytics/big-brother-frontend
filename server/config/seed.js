@@ -117,7 +117,7 @@ var getRecords = function(mac, from, to) {
       records.push({
         mac: mac,
         lastUpdated: timestamp,
-        status: index % 2 === 0 ? 'UP' : 'DOWN'
+        status: index % 2 === 0 ? 'UP' : 'UP'
       })
     });
     from.add(1, 'days');

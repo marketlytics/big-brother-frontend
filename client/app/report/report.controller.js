@@ -148,9 +148,11 @@ angular.module('bigBrotherApp')
 							});
 							var arr = $scope.data[month][date]['users'][user];
 							if(arr.length) {
+								var checkIn = arr.filter(function(record) { return record.status === 'UP' })[0];
+								var checkOut = arr.filter(function(record) { return record.status === 'DOWN' }).pop();
 								$scope.data[month][date]['users'][user] = {
-									checkIn: arr.filter(function(record) { return record.status === 'UP' })[0].date.format('LT'), 
-									checkOut: arr.filter(function(record) { return record.status === 'DOWN' }).pop().date.format('LT')
+									checkIn: checkIn ? checkIn.date.format('LT') : 'N/A', 
+									checkOut: checkOut ? checkOut.date.format('LT') : 'N/A'
 								};
 							}
 						}

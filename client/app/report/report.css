@@ -2,3 +2,29 @@
 	display: inline-block;
 	vertical-align: center;
 }
+
+.group-filter .control-label i,
+.group-filter .control-label span {
+	display:inline-block;
+	vertical-align: middle;
+}
+
+#filters .row {
+	margin-bottom: 10px;
+}
+
+.top-filter-bar .btn-group {
+	float:right;
+}
+
+.top-filter-bar .btn-group,
+.top-filter-bar .btn {
+	margin-top: 0px;
+}
+
+
+@media(max-width:767px) {
+	.top-filter-bar .btn-group {
+		float:none;
+	}
+}

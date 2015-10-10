@@ -1,32 +1,62 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-    <ui-select multiple ng-model="filter.users">
-        <ui-select-match>{{$item.name}}</ui-select-match>
-        <ui-select-choices repeat="user in users | filter:$select.search">
-            <div class="filter-user-choice">
-                <div><img gravatar-src="'{{user.email}}'" gravatar-type="img" gravatar-size="40"/></div>
-                <div ng-bind-html="user.name"></div>
+
+    <section id="filters">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="group-filter filter-name">
+                    
+                    <div class="form-group">
+                        <label class="control-label"><!-- <i class="mdi-social-person-outline"></i> --> <span>Users<span></label>
+                        <ui-select multiple ng-model="filter.users">
+                            <ui-select-match>{{$item.name}}</ui-select-match>
+                            <ui-select-choices repeat="user in users | filter:$select.search">
+                                <div class="filter-user-choice">
+                                    <div><img gravatar-src="'{{user.email}}'" gravatar-type="img" gravatar-size="40"/></div>
+                                    <div ng-bind-html="user.name"></div>
+                                </div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
             </div>
-        </ui-select-choices>
-    </ui-select>
 
-    <div class="row">
-        <div class="col-md-6">
-            <input type="text" class="form-control datepicker" id="start" ng-model="filter.dp.start.dt" />
+            <div class="col-sm-3">
+                <div class="group-filter filter-date">
+                    <div class="form-group">
+                        <label class="control-label" for="start"><!-- <i class="mdi-editor-insert-invitation "></i> --> <span>Start date</span></label>
+                        <input type="text" class="form-control datepicker" id="start" ng-model="filter.dp.start.dt"/>
+                    </div>
+                   
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="group-filter filter-date">
+                    <div class="form-group">
+                        <label class="control-label" for="end"><!-- <i class="mdi-editor-insert-invitation "></i> --> <span>End date</span></label>
+                        <input type="text" class="form-control datepicker" id="end" ng-model="filter.dp.end.dt"/>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="col-md-6">
-            <input type="text" class="form-control datepicker" id="end" ng-model="filter.dp.end.dt" />
-        </div>
+    </section>
 
+    <div class="row top-filter-bar">
+        <div class="col-md-2 col-sm-2">
+            <button class="btn btn-primary btn-toggle-filters">Hide filters</button>
+        </div>
+        <div class="col-md-4 col-md-offset-6 col-sm-5 col-sm-offset-4">
+            <div class="btn-group">
+                <label class="btn btn-primary" ng-model="dataType" btn-radio="'attendance'">Attendance</label>
+                <label class="btn btn-primary" ng-model="dataType" btn-radio="'leaves'">Leaves</label>
+            </div>
+        </div>
     </div>
-    
-	<h4>Show filters</h4>
-	<div class="btn-group">
-        <label class="btn btn-primary" ng-model="dataType" btn-radio="'attendance'">Attendance</label>
-        <label class="btn btn-primary" ng-model="dataType" btn-radio="'leaves'">Leaves</label>
-    </div>
+
     
     <section ng-repeat="(month, dates) in data">
         <h1>{{month}}</h1>
@@ -457,3 +487,18 @@
     	</tbody>
     </table> -->
 </div>
+
+<script>
+    
+    $('.btn-toggle-filters').click(function() {
+        var _this = $(this);
+        $('#filters').slideToggle('fast', function() {
+            if($(this).is(':visible')) {
+                _this.text('Hide filters');
+            } else {
+                _this.text('Show filters');
+            }
+        });
+    });
+    $.material.init();
+</script>

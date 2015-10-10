@@ -64,15 +64,12 @@ angular.module('bigBrotherApp')
 		});
 
 		$('.dtp i').each(function() {
-			if($(this).text() === 'chevron_left') {
-			    $(this).addClass('mdi-navigation-chevron-left');
-			    $(this).html('');
+			var text = $(this).text();
+			if(text === 'chevron_left' || text === 'chevron_right') {
+			    $(this).addClass('mdi-navigation-' + text.replace('_', '-'));
 			}
-			else if($(this).text() === 'chevron_right') {
-				$(this).addClass('mdi-navigation-chevron-right');
-			    $(this).html('');
-			}
-		});
+			$(this).html('');
+		});	
 	  }();
 
       //custom filter for filtering users from table header

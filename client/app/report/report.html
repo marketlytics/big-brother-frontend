@@ -8,7 +8,7 @@
                 <div class="group-filter filter-name">
                     
                     <div class="form-group">
-                        <label class="control-label"><!-- <i class="mdi-social-person-outline"></i> --> <span>Users<span></label>
+                        <label class="control-label"><span>Users<span></label>
                         <ui-select multiple ng-model="filter.users">
                             <ui-select-match>{{$item.name}}</ui-select-match>
                             <ui-select-choices repeat="user in users | filter:$select.search">
@@ -25,7 +25,7 @@
             <div class="col-sm-3">
                 <div class="group-filter filter-date">
                     <div class="form-group">
-                        <label class="control-label" for="start"><!-- <i class="mdi-editor-insert-invitation "></i> --> <span>Start date</span></label>
+                        <label class="control-label" for="start"><span>Start date</span></label>
                         <input type="text" class="form-control datepicker" id="start" ng-model="filter.dp.start.dt"/>
                     </div>
                    
@@ -35,7 +35,7 @@
             <div class="col-sm-3">
                 <div class="group-filter filter-date">
                     <div class="form-group">
-                        <label class="control-label" for="end"><!-- <i class="mdi-editor-insert-invitation "></i> --> <span>End date</span></label>
+                        <label class="control-label" for="end"><span>End date</span></label>
                         <input type="text" class="form-control datepicker" id="end" ng-model="filter.dp.end.dt"/>
                     </div>
                 </div>
@@ -57,439 +57,32 @@
         </div>
     </div>
 
-    
-    <section ng-repeat="(month, dates) in data">
+    <section ng-repeat="(month, dates) in data" class="report-section">
         <h1>{{month}}</h1>
-        <table class="table">
+        <table class="table table-hover table-striped">
             <thead>
                 <tr>
-                    <th class="compressed"></th>
-                    <th class="compressed"></th>
-                    <th ng-repeat="user in users | filter: filterUsers"><img gravatar-src="'{{user.email}}'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"/>
+                    <th class="compressed" width="40"></th>
+                    <th class="compressed" width="70"></th>
+                    <th ng-repeat="user in users | filter: filterUsers" width="120"><img gravatar-src="'{{user.email}}'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"/>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="(date, data) in dates">
-                    <th class="compressed">{{date}}</th>
-                    <th class="compressed">{{data.time.day}}</th>
-                    <td ng-repeat="user in data.users | filterUserCol: filter.users">
+                    <th class="compressed" width="40">{{data.time.date}}</th>
+                    <th class="compressed" width="70">{{data.time.day}}</th>
+                    <td ng-repeat="user in data.users | filterUserCol: filter.users" width="120">
                         <span>{{user.checkIn}}</span> - <span>{{user.checkOut}}</span>
                     </td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
     </section>
-
-    <!-- <table class="table">
-    	<thead>
-    		<tr>
-    			<th class="compressed"></th>
-    			<th class="compressed"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    			<th><img class="gravatar-img" gravatar-src="'abdulqadir@marketlytics.com'" gravatar-size="200" gravatar-type="img" style="width:40px; height: auto;"></th>
-    		</tr>
-    	</thead>
-    	<tbody>
-    		<tr>
-    			<th class="compressed">1</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">2</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">3</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">4</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">5</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">6</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">7</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">8</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">9</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">10</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">1</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">2</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">3</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">4</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">5</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">6</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">7</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">8</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">9</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">10</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">1</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">2</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">3</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    		<tr>
-    			<th class="compressed">4</th>
-    			<th class="compressed">Mon</th>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    			<td><span class="glyphicon glyphicon-indicator-present"></span> 08:00 - 19:00</td>
-    		</tr>
-    	</tbody>
-    </table> -->
 </div>
 
 <script>
-    
     $('.btn-toggle-filters').click(function() {
         var _this = $(this);
         $('#filters').slideToggle('fast', function() {

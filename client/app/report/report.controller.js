@@ -161,13 +161,20 @@ angular.module('bigBrotherApp')
 								var checkIn = arr.filter(function(record) { return record.status === 'UP' })[0];
 								var checkOut = arr.filter(function(record) { return record.status === 'DOWN' }).pop();
 								$scope.data[month][date]['users'][user] = {
-									checkIn: checkIn ? checkIn.date.format('LT') : 'N/A', 
-									checkOut: checkOut ? checkOut.date.format('LT') : 'N/A'
+									checkIn: checkIn ? checkIn.date.format('HH:mm') : 'N/A', 
+									checkOut: checkOut ? checkOut.date.format('HH:mm') : 'N/A'
 								};
 							}
 						}
 					}
 				}
+
+				$timeout(function() {
+					$('.report-section table tbody tr').click(function() {
+						$('.report-section table tbody tr').not($(this)).removeClass('highlight');
+						$(this).toggleClass('highlight');
+					});
+				}, 0);
 			});
 		});
       };

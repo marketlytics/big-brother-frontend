@@ -22,6 +22,25 @@
 	margin-top: 0px;
 }
 
+.report-section {
+	overflow: auto;
+	margin-bottom: 20px;
+}
+
+.highlight td,
+.highlight th { 
+	background-color: #fff2a8 !important;
+}
+
+.report-section table tbody td {
+	min-width: 120px;
+}
+
+.report-section h1 {
+	border-bottom:1px solid #ccc;
+	padding-bottom: 15px;
+	margin-bottom: 30px;
+}
 
 @media(max-width:767px) {
 	.top-filter-bar .btn-group {

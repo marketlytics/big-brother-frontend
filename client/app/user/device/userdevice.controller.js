@@ -63,6 +63,16 @@ angular.module('bigBrotherApp')
             time: false,
             format: 'MMM DD, YYYY'
           });
+          $('.dtp i').each(function() {
+            if($(this).text() === 'chevron_left') {
+              $(this).addClass('mdi-navigation-chevron-left');
+              $(this).html('');
+            }
+            else if($(this).text() === 'chevron_right') {
+              $(this).addClass('mdi-navigation-chevron-right');
+              $(this).html('');
+            }
+          });
         }, 0);
       });
 

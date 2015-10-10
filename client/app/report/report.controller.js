@@ -36,31 +36,44 @@ angular.module('bigBrotherApp')
       	}
       };
 
-      $('#start').bootstrapMaterialDatePicker({
-      	time: false,
-      	maxDate: moment(),
-      	format: 'MMM DD, YYYY'
-      });
+      var initDatepicker = function() {
+		$('#start').bootstrapMaterialDatePicker({
+			time: false,
+			maxDate: moment(),
+			format: 'MMM DD, YYYY'
+		});
 
-      $('#start').on('change', function(event, date) {
-      	$('#end').bootstrapMaterialDatePicker('setMinDate', date);
-  		var endDate = moment.isMoment($scope.filter.dp.end.dt) ? $scope.filter.dp.end.dt : moment($scope.filter.dp.end.dt);
-  		if(endDate.isBefore(date)) {
-  			$scope.filter.dp.end.dt = date.format('MMM DD, YYYY');
-  		}
-  		$timeout($scope.onDateChange, 0);
-      });
+		$('#start').on('change', function(event, date) {
+			$('#end').bootstrapMaterialDatePicker('setMinDate', date);
+			var endDate = moment.isMoment($scope.filter.dp.end.dt) ? $scope.filter.dp.end.dt : moment($scope.filter.dp.end.dt);
+			if(endDate.isBefore(date)) {
+				$scope.filter.dp.end.dt = date.format('MMM DD, YYYY');
+			}
+			$timeout($scope.onDateChange, 0);
+		});
 
-      $('#end').bootstrapMaterialDatePicker({
-      	time: false,
-      	maxDate: moment(),
-      	minDate: $scope.filter.dp.start.dt,
-      	format: 'MMM DD, YYYY'
-      });
+		$('#end').bootstrapMaterialDatePicker({
+			time: false,
+			maxDate: moment(),
+			minDate: $scope.filter.dp.start.dt,
+			format: 'MMM DD, YYYY'
+		});
 
-      $('#end').on('change', function(event, date) {
-      	$timeout($scope.onDateChange, 0);
-      });
+		$('#end').on('change', function(event, date) {
+			$timeout($scope.onDateChange, 0);
+		});
+
+		$('.dtp i').each(function() {
+			if($(this).text() === 'chevron_left') {
+			    $(this).addClass('mdi-navigation-chevron-left');
+			    $(this).html('');
+			}
+			else if($(this).text() === 'chevron_right') {
+				$(this).addClass('mdi-navigation-chevron-right');
+			    $(this).html('');
+			}
+		});
+	  }();
 
       //custom filter for filtering users from table header
       $scope.filterUsers = function(item) {

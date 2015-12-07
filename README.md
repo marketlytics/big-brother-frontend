@@ -1,10 +1,10 @@
-# big-brother-frontend
+### Overview - big-brother-frontend module
 This repository contains frontend module for the project "big-brother-pi" module (https://github.com/marketlytics/big-brother-pi.git)..
 
-## Cloning this repo..
+#### Cloning this repo..
 $ git clone https://github.com/marketlytics/big-brother-frontend.git
 
-## Installing all dependencies..
+#### Installing all dependencies..
 (make sure npm & bower installed.)
 
 $ cd <into the project root directory> # ~/Sites/big-brother-frontend
@@ -13,7 +13,7 @@ $ npm install & bower install
 That's all you need..!!
 
 
-# Codebase Explaination
+### Codebase Overview
 Mainly this project contains 3 folders (that we'll discuss).
 
 1. client: which defines all client side (app view/design)
@@ -21,43 +21,48 @@ Mainly this project contains 3 folders (that we'll discuss).
 3. e2e: contains pages interaction js files + testing
 
 
-## Gruntfile.js: defines all automation to test and run the project.
+##### Gruntfile.js
+defines all automation to test and run the project.
 
-## package.json: contains project configuration and all server side dependencies to install
+##### package.json
+contains project configuration and all server side dependencies to install
 
-## bower.json: contains project config and all client side (UI) dependencies to install.
+##### bower.json
+contains project config and all client (UI) side dependencies to install.
 
-## /client
+### /client
 
-### client/app
+##### client/app
 defines and setups all app pages with its ui functionalities.
 
-### client/assets
+##### client/assets
 contains all assets used in app UI side.
 
-### client/components
+##### client/components
 components used for interaction with ui and server's db
 
-### client/index.html
+##### client/index.html
 app home page
 
 
-## /server
+### /server
 
-### server/api
+##### server/api
 contains all api routes, models and its testing in seperate folder.
 
-### server/config
+##### server/config
 contains all server configuration + test data in seed.js
 
-### server/auth
+##### server/auth
 contains routes for user authentication
 
-### server/app.js
+##### server/app.js
 main application file which setup's the whole server and starts it run.
 
-### server/routes.js
+##### server/routes.js
 defines & setup all routes used in this app.
 
-Please help us to improve this documentation.
+
+Please contribute this project & also improve this document.
+
 Thanks.
